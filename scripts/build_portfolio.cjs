@@ -1400,6 +1400,401 @@ const htmlContent = `<!DOCTYPE html>
         width: 100%;
       }
     }
+
+    /* DEDICATED SERVICE DETAIL VIEW & CLICKABLE SKILLS */
+    body.service-view-open {
+      overflow: hidden !important;
+    }
+
+    .skill-card {
+      cursor: pointer !important;
+      user-select: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .skill-card:hover {
+      border-color: rgba(17, 17, 17, 0.4) !important;
+      box-shadow: var(--shadow-hover);
+    }
+
+    .skill-card:focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 3px;
+    }
+
+    .skill-card-action {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line-light);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: color 0.2s ease;
+    }
+
+    .skill-card-action .skill-arrow {
+      transition: transform 0.25s var(--ease-out-expo);
+      font-size: 14px;
+    }
+
+    .skill-card:hover .skill-card-action .skill-arrow {
+      transform: translateX(4px);
+    }
+
+    .service-detail-view {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1500;
+      background: var(--bg);
+      overflow-y: auto;
+      overflow-x: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(28px) scale(0.995);
+      transition: opacity 0.32s var(--ease-out-expo), transform 0.32s var(--ease-out-expo), visibility 0.32s;
+      padding-bottom: 90px;
+    }
+
+    .service-detail-view.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+
+    .service-nav-bar {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 72px;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 max(24px, env(safe-area-inset-left)) 0 max(24px, env(safe-area-inset-right));
+      z-index: 20;
+    }
+
+    .service-nav-brand {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .service-header-hero {
+      background: linear-gradient(180deg, var(--bg2) 0%, #FFFFFF 100%);
+      border-radius: var(--radius-lg);
+      padding: 44px 40px;
+      margin-top: 24px;
+      border: 1px solid var(--line);
+      position: relative;
+    }
+
+    .service-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--sub);
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 20px;
+    }
+
+    .service-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .service-icon-large {
+      width: 68px;
+      height: 68px;
+      border-radius: 18px;
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 34px;
+      box-shadow: var(--shadow-sm);
+      flex-shrink: 0;
+    }
+
+    .service-title {
+      font-size: clamp(30px, 4.5vw, 50px);
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+    }
+
+    .service-tagline {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--sub);
+      margin-top: 4px;
+    }
+
+    .service-lead-desc {
+      font-size: 18px;
+      line-height: 1.65;
+      color: var(--sub);
+      max-width: 860px;
+      margin-top: 12px;
+    }
+
+    /* Service Section Blocks */
+    .service-section-block {
+      padding: 48px 0;
+      border-bottom: 1px solid var(--line-light);
+    }
+
+    .service-subhead {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--ink);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .service-subhead::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--ink);
+    }
+
+    /* Offerings Grid */
+    .services-offered-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .offering-card {
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      transition: transform 0.25s var(--ease-out-expo), box-shadow 0.25s var(--ease-out-expo);
+    }
+
+    .offering-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+      border-color: rgba(0,0,0,0.25);
+    }
+
+    .offering-num {
+      font-size: 12px;
+      font-weight: 800;
+      font-family: var(--font-display);
+      color: var(--sub);
+      margin-bottom: 8px;
+    }
+
+    .offering-card h4 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .offering-card p {
+      font-size: 14px;
+      color: var(--sub);
+      line-height: 1.6;
+    }
+
+    /* Tools Pills */
+    .tools-pills-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .tool-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-pill);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .tool-badge:hover {
+      transform: translateY(-2px);
+      border-color: var(--ink);
+    }
+
+    /* Example / Work Section */
+    .service-work-card {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      box-shadow: var(--shadow-card);
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 36px;
+      align-items: center;
+    }
+
+    .service-work-info h3 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+
+    .service-work-info p {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--sub);
+      margin-bottom: 20px;
+    }
+
+    .service-deliverables-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .deliverable-chip {
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      color: var(--ink);
+    }
+
+    .service-work-metric-box {
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 28px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .metric-big-num {
+      font-size: clamp(38px, 4.5vw, 54px);
+      font-weight: 800;
+      font-family: var(--font-display);
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .metric-big-label {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--sub);
+    }
+
+    /* Service CTA Banner */
+    .service-cta-banner {
+      margin-top: 52px;
+      background: var(--ink);
+      color: #FFFFFF;
+      border-radius: var(--radius-lg);
+      padding: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+      flex-wrap: wrap;
+      box-shadow: 0 20px 48px rgba(17, 17, 17, 0.2);
+    }
+
+    .service-cta-banner h3 {
+      color: #FFFFFF;
+      font-size: clamp(22px, 3vw, 30px);
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .service-cta-banner p {
+      color: #B5B5B5;
+      font-size: 15px;
+      max-width: 540px;
+      line-height: 1.6;
+    }
+
+    .service-cta-banner .btn-white {
+      background: #FFFFFF;
+      color: var(--ink);
+      border: 1px solid #FFFFFF;
+      font-weight: 700;
+    }
+
+    .service-cta-banner .btn-white:hover {
+      background: #EFEFEF;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 900px) {
+      .services-offered-grid {
+        grid-template-columns: 1fr;
+      }
+      .service-work-card {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+      .service-header-hero {
+        padding: 28px 24px;
+      }
+      .service-cta-banner {
+        padding: 32px 24px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .service-cta-banner .btn {
+        width: 100%;
+      }
+    }
+
   </style>
 
   <!-- Schema.org Structured Data -->
@@ -1624,78 +2019,90 @@ const htmlContent = `<!DOCTYPE html>
         <h2 class="section-title">What I bring to the table.</h2>
       </div>
 
-      <!-- 4-column grid (responsive to 2 then 1) with hover 3D tilt -->
+      <!-- 4-column grid (responsive to 2 then 1) with hover 3D tilt & click to open dedicated detail view -->
       <div class="skills-grid">
-        <div class="skill-card tilt-card reveal-item">
+        <div class="skill-card tilt-card reveal-item" onclick="openServiceView('digital-marketing')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openServiceView('digital-marketing')" aria-label="Open detailed view for Digital Marketing">
           <div class="skill-icon-wrap">🎯</div>
           <h3 class="skill-title">Digital Marketing</h3>
           <p class="skill-desc">Omnichannel growth strategies, multi-tier funnel optimization and data-backed user acquisition.</p>
+          <div class="skill-card-action"><span>Explore Service</span><span class="skill-arrow">→</span></div>
         </div>
 
-        <div class="skill-card tilt-card reveal-item">
+        <div class="skill-card tilt-card reveal-item" onclick="openServiceView('social-media-marketing')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openServiceView('social-media-marketing')" aria-label="Open detailed view for Social Media Marketing">
           <div class="skill-icon-wrap">📱</div>
           <h3 class="skill-title">Social Media Marketing</h3>
           <p class="skill-desc">High-engagement editorial calendars, community storytelling, and viral social campaign planning.</p>
+          <div class="skill-card-action"><span>Explore Service</span><span class="skill-arrow">→</span></div>
         </div>
 
-        <div class="skill-card tilt-card reveal-item">
+        <div class="skill-card tilt-card reveal-item" onclick="openServiceView('performance-marketing')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openServiceView('performance-marketing')" aria-label="Open detailed view for Performance Marketing">
           <div class="skill-icon-wrap">⚡</div>
           <h3 class="skill-title">Performance Marketing</h3>
           <p class="skill-desc">Targeted paid acquisition across Meta & Google Ads with rigorous CAC/ROAS telemetry.</p>
+          <div class="skill-card-action"><span>Explore Service</span><span class="skill-arrow">→</span></div>
         </div>
 
-        <div class="skill-card tilt-card reveal-item">
+        <div class="skill-card tilt-card reveal-item" onclick="openServiceView('seo')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openServiceView('seo')" aria-label="Open detailed view for SEO">
           <div class="skill-icon-wrap">🔍</div>
           <h3 class="skill-title">SEO</h3>
           <p class="skill-desc">Technical search audits, high-intent keyword mapping, and evergreen content architecture.</p>
+          <div class="skill-card-action"><span>Explore Service</span><span class="skill-arrow">→</span></div>
         </div>
 
-        <div class="skill-card tilt-card reveal-item">
+        <div class="skill-card tilt-card reveal-item" onclick="openServiceView('content-strategy')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openServiceView('content-strategy')" aria-label="Open detailed view for Content Strategy">
           <div class="skill-icon-wrap">✍️</div>
           <h3 class="skill-title">Content Strategy</h3>
           <p class="skill-desc">Audience persona research, brand voice guidelines, and distribution narratives that convert.</p>
+          <div class="skill-card-action"><span>Explore Service</span><span class="skill-arrow">→</span></div>
         </div>
 
-        <div class="skill-card tilt-card reveal-item">
+        <div class="skill-card tilt-card reveal-item" onclick="openServiceView('ui-ux-design')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openServiceView('ui-ux-design')" aria-label="Open detailed view for UI/UX Design">
           <div class="skill-icon-wrap">✨</div>
           <h3 class="skill-title">UI/UX Design</h3>
           <p class="skill-desc">User-centered interface systems, intuitive interaction flows, and high-fidelity clickable prototypes.</p>
+          <div class="skill-card-action"><span>Explore Service</span><span class="skill-arrow">→</span></div>
         </div>
 
-        <div class="skill-card tilt-card reveal-item">
+        <div class="skill-card tilt-card reveal-item" onclick="openServiceView('figma')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openServiceView('figma')" aria-label="Open detailed view for Figma">
           <div class="skill-icon-wrap">🎨</div>
           <h3 class="skill-title">Figma</h3>
           <p class="skill-desc">Design token architecture, auto-layout mastery, interactive states, and component libraries.</p>
+          <div class="skill-card-action"><span>Explore Service</span><span class="skill-arrow">→</span></div>
         </div>
 
-        <div class="skill-card tilt-card reveal-item">
+        <div class="skill-card tilt-card reveal-item" onclick="openServiceView('branding')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openServiceView('branding')" aria-label="Open detailed view for Branding">
           <div class="skill-icon-wrap">🏷️</div>
           <h3 class="skill-title">Branding</h3>
           <p class="skill-desc">Distinctive visual identities, typographic hierarchies, color systems, and brand stylebooks.</p>
+          <div class="skill-card-action"><span>Explore Service</span><span class="skill-arrow">→</span></div>
         </div>
 
-        <div class="skill-card tilt-card reveal-item">
+        <div class="skill-card tilt-card reveal-item" onclick="openServiceView('web-design')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openServiceView('web-design')" aria-label="Open detailed view for Web Design">
           <div class="skill-icon-wrap">💻</div>
           <h3 class="skill-title">Web Design</h3>
           <p class="skill-desc">Responsive layouts, spatial math, semantic accessibility standards, and micro-interactions.</p>
+          <div class="skill-card-action"><span>Explore Service</span><span class="skill-arrow">→</span></div>
         </div>
 
-        <div class="skill-card tilt-card reveal-item">
+        <div class="skill-card tilt-card reveal-item" onclick="openServiceView('ai-tools')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openServiceView('ai-tools')" aria-label="Open detailed view for AI Tools">
           <div class="skill-icon-wrap">🤖</div>
           <h3 class="skill-title">AI Tools</h3>
           <p class="skill-desc">Prompt engineering, generative visual workflows, automated research, and content pipelines.</p>
+          <div class="skill-card-action"><span>Explore Service</span><span class="skill-arrow">→</span></div>
         </div>
 
-        <div class="skill-card tilt-card reveal-item">
+        <div class="skill-card tilt-card reveal-item" onclick="openServiceView('creative-strategy')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openServiceView('creative-strategy')" aria-label="Open detailed view for Creative Strategy">
           <div class="skill-icon-wrap">💡</div>
           <h3 class="skill-title">Creative Strategy</h3>
           <p class="skill-desc">Bridging business metrics with boundary-pushing creative execution and concept ideation.</p>
+          <div class="skill-card-action"><span>Explore Service</span><span class="skill-arrow">→</span></div>
         </div>
 
-        <div class="skill-card tilt-card reveal-item">
+        <div class="skill-card tilt-card reveal-item" onclick="openServiceView('analytics-cro')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openServiceView('analytics-cro')" aria-label="Open detailed view for Analytics & CRO">
           <div class="skill-icon-wrap">📊</div>
           <h3 class="skill-title">Analytics & CRO</h3>
           <p class="skill-desc">Conversion rate experiments, behavioral heatmaps, and event tracking that drive measurable ROI.</p>
+          <div class="skill-card-action"><span>Explore Service</span><span class="skill-arrow">→</span></div>
         </div>
       </div>
     </div>
@@ -2031,6 +2438,87 @@ const htmlContent = `<!DOCTYPE html>
     </div>
   </footer>
 
+  <!-- DEDICATED SERVICE DETAIL VIEW (FULL-PAGE SMOOTH OVERLAY) -->
+  <div class="service-detail-view" id="serviceDetailView" aria-hidden="true" role="dialog" aria-modal="true">
+    <!-- Top Nav Bar -->
+    <div class="service-nav-bar">
+      <button class="btn btn-outline magnetic" onclick="closeServiceView()" aria-label="Return to portfolio">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Back to Portfolio
+      </button>
+      <div class="service-nav-brand">
+        Krish Kumar <span style="color:var(--sub); font-weight:400; font-size:13px; margin-left:4px;">· Service Detail</span>
+      </div>
+      <a href="#contact" id="serviceNavContactBtn" onclick="closeServiceViewAndScrollContact()" class="btn btn-dark magnetic">
+        Contact Me
+      </a>
+    </div>
+
+    <div class="container" style="padding-top: 20px;">
+      <!-- Hero Header for Service -->
+      <div class="service-header-hero">
+        <div class="service-eyebrow" id="srvEyebrow">✦ Core Service Capability</div>
+        <div class="service-title-wrap">
+          <div class="service-icon-large" id="srvIcon">🎯</div>
+          <div>
+            <h1 class="service-title" id="srvTitle">Digital Marketing</h1>
+            <div class="service-tagline" id="srvTagline">Performance & Brand Growth</div>
+          </div>
+        </div>
+        <p class="service-lead-desc" id="srvDesc">
+          Full-funnel digital marketing strategies combining audience segmentation, organic reach, paid performance, and conversion rate optimization.
+        </p>
+      </div>
+
+      <!-- 1. Services Offered -->
+      <div class="service-section-block">
+        <div class="service-subhead">Services Offered & Deliverables</div>
+        <div class="services-offered-grid" id="srvOfferings"></div>
+      </div>
+
+      <!-- 2. Relevant Tools -->
+      <div class="service-section-block">
+        <div class="service-subhead">Relevant Tools & Technology</div>
+        <div class="tools-pills-wrap" id="srvTools"></div>
+      </div>
+
+      <!-- 3. Example / Work Case Study -->
+      <div class="service-section-block">
+        <div class="service-subhead">Featured Case Study & Measurable Impact</div>
+        <div class="service-work-card" id="srvWorkCard">
+          <div class="service-work-info">
+            <h3 id="srvWorkTitle">Project Name</h3>
+            <p id="srvWorkDesc">Description of the project outcome.</p>
+            <div class="service-deliverables-list" id="srvDeliverables"></div>
+          </div>
+          <div class="service-work-metric-box">
+            <div class="metric-big-num" id="srvMetricVal">3.4x</div>
+            <div class="metric-big-label" id="srvMetricLabel">Average ROAS</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Contact Banner -->
+      <div class="service-cta-banner">
+        <div>
+          <h3 id="srvCtaHeading">Ready to scale with this service?</h3>
+          <p>Let's collaborate to build high-converting systems, memorable brand identities, and modern digital products.</p>
+        </div>
+        <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
+          <button class="btn btn-outline" style="color: #FFFFFF; border-color: rgba(255, 255, 255, 0.35);" onclick="closeServiceView()">
+            ← Back to Portfolio
+          </button>
+          <a href="#contact" id="srvContactBtn" onclick="closeServiceViewAndScrollContact()" class="btn btn-white magnetic">
+            Contact Me →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- DETAIL MODAL -->
   <div class="modal-overlay" id="detailModal">
     <div class="modal-box">
@@ -2100,6 +2588,25 @@ const htmlContent = `<!DOCTYPE html>
     processSteps.forEach(step => processObserver.observe(step));
 
     // 4. "MAGNETIC" BUTTONS
+    function initMagneticButtons() {
+      const magneticBtns = document.querySelectorAll('.magnetic:not([data-magnetic-init])');
+      magneticBtns.forEach(btn => {
+        btn.setAttribute('data-magnetic-init', 'true');
+        btn.addEventListener('mousemove', (e) => {
+          const rect = btn.getBoundingClientRect();
+          const x = e.clientX - rect.left - rect.width / 2;
+          const y = e.clientY - rect.top - rect.height / 2;
+          const moveX = x * 0.3;
+          const moveY = y * 0.3;
+          btn.style.transform = 'translate(' + moveX + 'px, ' + moveY + 'px)';
+        });
+        btn.addEventListener('mouseleave', () => {
+          btn.style.transform = 'translate(0px, 0px)';
+        });
+      });
+    }
+    initMagneticButtons();
+
     // Every CTA (.magnetic class) tracks mousemove within its bounding box and translates up to ~30%
     const magneticBtns = document.querySelectorAll('.magnetic');
     magneticBtns.forEach(btn => {
@@ -2348,6 +2855,606 @@ const htmlContent = `<!DOCTYPE html>
       modalTag.textContent = title.includes('Certificate') || meta.includes('202') ? 'Credential Details' : 'Project Case Study';
       detailModal.classList.add('active');
     }
+
+
+    // 9. DEDICATED SERVICE DETAIL PAGES & SMOOTH TRANSITIONS
+    const servicesDatabase = {
+      'digital-marketing': {
+        title: 'Digital Marketing',
+        tagline: 'Strategic Omnichannel Growth & Acquisition',
+        icon: '🎯',
+        eyebrow: '✦ Core Strategy & Performance',
+        desc: 'Full-funnel digital marketing strategies combining deep audience segmentation, paid performance, organic reach, and conversion rate optimization to drive measurable revenue growth and high-fidelity brand recall.',
+        ctaHeading: 'Ready to scale with high-impact Digital Marketing?',
+        servicesOffered: [
+          {
+            num: '01',
+            title: 'Multi-Channel Acquisition Strategy',
+            desc: 'Mapping complete customer journeys from top-of-funnel discovery to high-value customer retention across paid and organic channels.'
+          },
+          {
+            num: '02',
+            title: 'Campaign Ideation & Creative Execution',
+            desc: 'Designing high-converting creative ad suites paired with rigorous iterative testing frameworks to prevent ad fatigue.'
+          },
+          {
+            num: '03',
+            title: 'Conversion Rate Optimization (CRO)',
+            desc: 'Comprehensive landing page audits, behavioral heatmap analytics, and systematic A/B experiments that plug conversion leaks.'
+          },
+          {
+            num: '04',
+            title: 'Attribution & Executive Telemetry',
+            desc: 'Multi-touch attribution modeling, custom Google Tag Manager configurations, and transparent Looker Studio dashboards.'
+          }
+        ],
+        tools: ['Meta Ads Manager', 'Google Ads', 'Google Analytics 4', 'Semrush', 'HubSpot', 'Triple Whale', 'Hotjar', 'Mailchimp'],
+        work: {
+          title: 'Omnichannel Customer Acquisition Engine',
+          desc: 'Developed and orchestrated a unified paid and organic marketing funnel for a fast-scaling subscription platform, optimizing ad spend and user retention across 4 distinct customer personas.',
+          deliverables: ['Full-Funnel Paid Strategy', '30+ Custom Ad Creatives', 'High-Converting Landing Pages', 'GA4 Event Architecture'],
+          metricVal: '3.4x',
+          metricLabel: 'Attributed Blended ROAS'
+        }
+      },
+
+      'social-media-marketing': {
+        title: 'Social Media Marketing',
+        tagline: 'High-Engagement Community & Viral Content Architecture',
+        icon: '📱',
+        eyebrow: '✦ Audience & Social Storytelling',
+        desc: 'Strategic social presence architecture built around authentic storytelling, community-first interaction, and trend-responsive formats to cultivate loyal audiences that actively advocate for your brand.',
+        ctaHeading: 'Ready to build an authentic, engaged social community?',
+        servicesOffered: [
+          {
+            num: '01',
+            title: 'Editorial Calendar & Content Planning',
+            desc: 'Structured 30/60/90-day publishing schedules aligned with product launches, seasonal campaigns, and cultural moments.'
+          },
+          {
+            num: '02',
+            title: 'Short-Form Video & Reel Direction',
+            desc: 'High-retention hooks, visual pacing, audio synchronization, and script direction tailored to Instagram and TikTok algorithms.'
+          },
+          {
+            num: '03',
+            title: 'Community Dialogue & Brand Voice',
+            desc: 'Active community engagement, conversational comment strategies, and rapid direct response that turns followers into brand champions.'
+          },
+          {
+            num: '04',
+            title: 'Creator & Micro-Influencer Collabs',
+            desc: 'Curating, vetting, briefing, and managing micro-influencer campaigns with trackable affiliate links and clear deliverable guidelines.'
+          }
+        ],
+        tools: ['Instagram Creator Studio', 'TikTok Ads Manager', 'Notion', 'CapCut Pro', 'Canva Pro', 'Buffer', 'Later', 'Meta Business'],
+        work: {
+          title: 'Viral Social Community Acceleration',
+          desc: 'Revamped the organic social architecture for a lifestyle brand with high-retention carousel breakdowns and relatable reels that scaled impressions exponentially without relying purely on ad spend.',
+          deliverables: ['90-Day Content Roadmap', '48 Bespoke Carousel Assets', '16 Viral Video Blueprints', 'Influencer Briefing Deck'],
+          metricVal: '+180%',
+          metricLabel: 'Quarterly Engagement Growth'
+        }
+      },
+
+      'performance-marketing': {
+        title: 'Performance Marketing',
+        tagline: 'Algorithmic Paid Acquisition, CAC Compression & Scaling',
+        icon: '⚡',
+        eyebrow: '✦ Paid Acquisition & ROI',
+        desc: 'Relentlessly data-driven customer acquisition. We architect scalable paid media campaigns across Meta, Google Search/Shopping, and TikTok with obsessive focus on Customer Acquisition Cost (CAC), Lifetime Value (LTV), and profit margins.',
+        ctaHeading: 'Ready to compress CAC and scale paid acquisition?',
+        servicesOffered: [
+          {
+            num: '01',
+            title: 'Paid Search & Performance Max (PMax)',
+            desc: 'High-intent search keyword architecture, negative keyword sculpts, and Performance Max asset group optimization.'
+          },
+          {
+            num: '02',
+            title: 'Paid Social Dynamic Creative Testing (DCT)',
+            desc: 'Iterative 3:2:2 dynamic creative testing systems identifying winning hook, copy, and visual combinations before scaling budget.'
+          },
+          {
+            num: '03',
+            title: 'Retargeting & LTV Funnel Design',
+            desc: 'Segmented custom audience funnels, cart abandonment recapture, and VIP customer retention loops.'
+          },
+          {
+            num: '04',
+            title: 'Budget Scaling & Bid Strategy Automation',
+            desc: 'Algorithmic cost-cap and target-ROAS bidding rules that safeguard profit margins during aggressive scaling phases.'
+          }
+        ],
+        tools: ['Meta Ads Manager', 'Google Ads', 'TikTok Ads', 'Triple Whale', 'Google Tag Manager', 'Looker Studio', 'PostHog'],
+        work: {
+          title: 'Multi-Market E-Commerce Scale Sprint',
+          desc: 'Restructured fragmented ad accounts into a consolidated Advantage+ and DCT framework, improving liquidity and driving sustainable revenue growth.',
+          deliverables: ['Account Consolidation Architecture', '50+ Dynamic Creative Sets', 'Server-Side CAPI Setup', 'Live ROAS Tracking'],
+          metricVal: '-38%',
+          metricLabel: 'Customer Acquisition Cost'
+        }
+      },
+
+      'content-strategy': {
+        title: 'Content Strategy',
+        tagline: 'Authority Building, Inbound Frameworks & Narrative Design',
+        icon: '✍️',
+        eyebrow: '✦ Editorial & Narrative Architecture',
+        desc: 'Transforming brand narratives into strategic commercial assets. We develop high-resonance content frameworks that educate prospective buyers, establish category authority, and guide users smoothly toward conversion.',
+        ctaHeading: 'Ready to turn content into your top acquisition channel?',
+        servicesOffered: [
+          {
+            num: '01',
+            title: 'Brand Tone of Voice & Lexicon Design',
+            desc: 'Codifying distinct brand voice guidelines, messaging pillars, and terminology libraries that unify company communications.'
+          },
+          {
+            num: '02',
+            title: 'Customer Intent Journey Mapping',
+            desc: 'Aligning content formats (educational TOFU guides, comparison MOFU teardowns, proof BOFU studies) with user purchasing intent.'
+          },
+          {
+            num: '03',
+            title: 'Thought Leadership & Technical Articles',
+            desc: 'Deep-dive essays, executive ghostwriting, case study whitepapers, and industry analysis that build undeniable credibility.'
+          },
+          {
+            num: '04',
+            title: 'Content Repurposing & Distribution Engine',
+            desc: 'Systematic workflows extracting multi-slide carousels, executive tweets, newsletters, and visual summaries from each pillar piece.'
+          }
+        ],
+        tools: ['Notion', 'Grammarly Business', 'Semrush', 'Surfer SEO', 'Substack', 'Google Docs', 'Figma'],
+        work: {
+          title: 'B2B Category Authority Content Pipeline',
+          desc: 'Architected an educational content ecosystem breaking down complex digital workflows into actionable guides, driving high-intent organic inbound inquiries.',
+          deliverables: ['12 Long-Form Pillar Guides', 'Complete Style & Tone Manual', 'Distribution Checklist', 'Automated Email Nurture Drip'],
+          metricVal: '210%',
+          metricLabel: 'Organic Search Traffic Lift'
+        }
+      },
+
+      'ui-ux-design': {
+        title: 'UI/UX Design',
+        tagline: 'Human-Centered Digital Products & Frictionless Interfaces',
+        icon: '✨',
+        eyebrow: '✦ Interaction & Product Design',
+        desc: 'Crafting intuitive, human-centered digital experiences where aesthetic delight meets frictionless utility. From deep user research and wireframing to pixel-perfect design systems ready for engineering handoff.',
+        ctaHeading: 'Ready to build an intuitive, unforgettable digital product?',
+        servicesOffered: [
+          {
+            num: '01',
+            title: 'User Research & Journey Mapping',
+            desc: 'Qualitative user interviews, competitive benchmarking, heuristic evaluation, and persona friction mapping.'
+          },
+          {
+            num: '02',
+            title: 'Information Architecture & Wireframing',
+            desc: 'Clean spatial layouts, intuitive navigation trees, and low-fidelity structural blueprints designed for effortless usability.'
+          },
+          {
+            num: '03',
+            title: 'High-Fidelity Interface Design',
+            desc: 'Modern typography scales, accessible color systems (WCAG 2.1 AA), fluid responsive layouts, and polished micro-interactions.'
+          },
+          {
+            num: '04',
+            title: 'Interactive Clickable Prototyping',
+            desc: 'Realistic user flow prototypes mimicking production software transitions to validate concepts with stakeholders and test users.'
+          }
+        ],
+        tools: ['Figma', 'FigJam', 'Framer', 'Principle', 'Maze', 'Lottie', 'Whimsical', 'Adobe CC'],
+        work: {
+          title: 'Fintech Mobile & Web Banking Dashboard',
+          desc: 'Redesigned the multi-currency asset dashboard and payment flow from the ground up, reducing cognitive overhead and streamlining transaction completion.',
+          deliverables: ['80+ Responsive Screens', 'Clickable Figma Prototype', 'Usability Testing Synthesis', 'Design System Spec Sheet'],
+          metricVal: '-42%',
+          metricLabel: 'Onboarding Flow Drop-Off'
+        }
+      },
+
+      'figma': {
+        title: 'Figma Systems & Prototyping',
+        tagline: 'Design Token Architecture, Auto-Layout & Component Libraries',
+        icon: '🎨',
+        eyebrow: '✦ Design Engineering & Systems',
+        desc: 'Industry-standard design engineering inside Figma. Building scalable token architectures, robust multi-brand component libraries, auto-layout masterpieces, and interactive developer-ready documentation.',
+        ctaHeading: 'Ready to supercharge design team velocity with a Figma system?',
+        servicesOffered: [
+          {
+            num: '01',
+            title: 'Variables & Design Token Architecture',
+            desc: 'Semantic color tokens, spacing scales, typography variables, and dark/light mode switches configured for effortless code translation.'
+          },
+          {
+            num: '02',
+            title: 'Modular Component Systems & Variants',
+            desc: 'Component sets featuring unified variants, boolean property toggles, and slot components that eliminate redundant layers.'
+          },
+          {
+            num: '03',
+            title: 'Auto-Layout 5.0 & Fluid Constraints',
+            desc: 'Layouts that mirror real-world flexbox and CSS grid behavior, ensuring designs adapt seamlessly across any viewport width.'
+          },
+          {
+            num: '04',
+            title: 'Developer Handoff & Redline Specs',
+            desc: 'Clean naming conventions, interactive states, token mappings, and annotated documentation for friction-free frontend builds.'
+          }
+        ],
+        tools: ['Figma Variables', 'Auto Layout 5.0', 'Tokens Studio', 'Component Properties', 'Zeroheight', 'Storybook', 'FigJam'],
+        work: {
+          title: 'Enterprise Multi-Product Design System',
+          desc: 'Engineered a unified design system of 450+ atomic components for a SaaS ecosystem, enabling product squads to ship new features twice as fast.',
+          deliverables: ['450+ Atomic Components', 'Semantic Variable Collections', 'Responsive Screen Templates', 'Developer Handoff Guide'],
+          metricVal: '60%',
+          metricLabel: 'Faster Design Handoff Cycles'
+        }
+      },
+
+      'seo': {
+        title: 'SEO & Search Growth',
+        tagline: 'Technical Audits, High-Intent Keywords & Compounding Traffic',
+        icon: '🔍',
+        eyebrow: '✦ Organic Search Strategy',
+        desc: 'Organic search visibility that compounds continuously over time. Combining deep technical audits, semantic keyword mapping, site architecture, and high-authority evergreen content.',
+        ctaHeading: 'Ready to capture high-intent search demand on Google?',
+        servicesOffered: [
+          {
+            num: '01',
+            title: 'Technical SEO Audits & Core Web Vitals',
+            desc: 'Diagnosing crawl errors, page performance, render-blocking scripts, and indexing bottlenecks.'
+          },
+          {
+            num: '02',
+            title: 'High-Intent Commercial Keyword Clusters',
+            desc: 'Mapping search volume and intent to priority product pages and authority editorial clusters.'
+          },
+          {
+            num: '03',
+            title: 'On-Page Content & Schema Optimization',
+            desc: 'Implementing rich snippets, Schema.org JSON-LD, meta titles, and structured header hierarchies.'
+          },
+          {
+            num: '04',
+            title: 'Internal Linking & Information Architecture',
+            desc: 'Structuring topic clusters and strategic internal links to distribute domain authority effectively.'
+          }
+        ],
+        tools: ['Ahrefs', 'Semrush', 'Google Search Console', 'Screaming Frog', 'Surfer SEO', 'Google Analytics 4'],
+        work: {
+          title: 'Organic Search Compounding Engine',
+          desc: 'Executed a complete technical SEO overhaul and content restructuring that elevated rankings across 18 commercial priority keywords.',
+          deliverables: ['Technical Audit Dossier', 'Target Keyword Matrix', 'Structured Data Schema', 'Content Refresh Checklist'],
+          metricVal: '180K+',
+          metricLabel: 'Monthly Organic Visitors'
+        }
+      },
+
+      'branding': {
+        title: 'Branding & Visual Identity',
+        tagline: 'Distinctive Visual Systems, Typography & Brand Guidelines',
+        icon: '🏷️',
+        eyebrow: '✦ Brand Identity & Systems',
+        desc: 'Crafting memorable visual identities that stand out in crowded markets. Logos, color harmony, typography hierarchies, and complete brand style guidelines that instill customer trust.',
+        ctaHeading: 'Ready to build an enduring, iconic brand identity?',
+        servicesOffered: [
+          {
+            num: '01',
+            title: 'Logo Systems & Visual Marks',
+            desc: 'Primary logotypes, responsive secondary badges, and favicons engineered for legibility across any medium.'
+          },
+          {
+            num: '02',
+            title: 'Color Palettes & Typography Standards',
+            desc: 'Emotionally resonant color pairings with accessible contrast ratios and editorial typographic hierarchies.'
+          },
+          {
+            num: '03',
+            title: 'Brand Guidelines & Asset Stylebooks',
+            desc: 'Comprehensive rulesets documenting logo spacing, misuse examples, imagery treatments, and brand voice.'
+          },
+          {
+            num: '04',
+            title: 'Marketing Collateral & Digital Kits',
+            desc: 'Social media templates, presentation decks, business stationery, and product packaging guidelines.'
+          }
+        ],
+        tools: ['Adobe Illustrator', 'Adobe Photoshop', 'Figma', 'InDesign', 'FontLab', 'Notion'],
+        work: {
+          title: 'Modern Brand Identity & Style System',
+          desc: 'Developed a contemporary, minimalist identity system for a creative technology venture, unifying digital and physical presence.',
+          deliverables: ['Complete Logo Suite', '60-Page Brand Guidelines', 'Social Media Asset Templates', 'Investor Pitch Deck'],
+          metricVal: '85%',
+          metricLabel: 'Brand Recognition Lift'
+        }
+      },
+
+      'web-design': {
+        title: 'Web Design & Frontend Craft',
+        tagline: 'Responsive Architecture, Micro-Interactions & Performance',
+        icon: '💻',
+        eyebrow: '✦ Web & Interaction Craft',
+        desc: 'Modern web experiences that combine editorial beauty with high performance, smooth interactions, and rock-solid responsiveness across mobile, tablet, and desktop devices.',
+        ctaHeading: 'Ready to design a responsive, high-converting website?',
+        servicesOffered: [
+          {
+            num: '01',
+            title: 'Responsive Layouts & Spatial Design',
+            desc: 'Harmonious grid systems, proportion scales, and layout structures that feel natural on any device width.'
+          },
+          {
+            num: '02',
+            title: 'Interactive Motion & Micro-Interactions',
+            desc: 'Purposeful scroll reveals, cursor dynamics, and button hover states that elevate perceived product quality.'
+          },
+          {
+            num: '03',
+            title: 'Accessibility & Performance Standards',
+            desc: 'Semantic HTML markup, screen-reader compatibility (WCAG 2.1 AA), and sub-second page load benchmarks.'
+          },
+          {
+            num: '04',
+            title: 'Production-Ready Engineering Handshake',
+            desc: 'Precise CSS custom property tokens, asset exports, and developer-friendly documentation.'
+          }
+        ],
+        tools: ['Figma', 'HTML5 & Modern CSS', 'Three.js / WebGL', 'Webflow', 'Tailwind CSS', 'VS Code'],
+        work: {
+          title: 'Flagship Interactive Product Launch Site',
+          desc: 'Designed and built a high-converting web experience with silky 60fps animations, 3D spatial accents, and an intuitive checkout flow.',
+          deliverables: ['Custom Web Architecture', 'Interaction Motion Specs', 'Responsive Breakpoint System', '98+ Lighthouse Audit'],
+          metricVal: '99+',
+          metricLabel: 'Lighthouse Performance Score'
+        }
+      },
+
+      'ai-tools': {
+        title: 'AI Tools & Creative Workflows',
+        tagline: 'Generative AI Workflows, Prompt Frameworks & Acceleration',
+        icon: '🤖',
+        eyebrow: '✦ AI-Powered Creativity',
+        desc: 'Supercharging creative production and marketing execution with modern generative AI. Systematic prompt engineering, synthetic visual workflows, automated market research, and pipeline acceleration.',
+        ctaHeading: 'Ready to harness cutting-edge AI for your brand?',
+        servicesOffered: [
+          {
+            num: '01',
+            title: 'Generative Visual & Asset Synthesis',
+            desc: 'Producing bespoke studio photography concepts, 3D renders, and campaign moodboards using advanced AI models.'
+          },
+          {
+            num: '02',
+            title: 'Prompt Engineering Frameworks',
+            desc: 'Codifying reusable, deterministic prompt structures for copy variation, audience simulation, and ideation.'
+          },
+          {
+            num: '03',
+            title: 'Automated Research & Synthesis',
+            desc: 'Rapidly parsing competitor libraries, customer reviews, and market trends into distilled strategic briefs.'
+          },
+          {
+            num: '04',
+            title: 'Creative Pipeline Acceleration',
+            desc: 'Integrating AI tools into existing design and copy workflows to reduce turnaround times without losing craft.'
+          }
+        ],
+        tools: ['Midjourney v6', 'Claude 3.5 Sonnet', 'Google Gemini', 'ChatGPT Plus', 'Stable Diffusion', 'Figma AI'],
+        work: {
+          title: 'AI-Accelerated Campaign Asset Studio',
+          desc: 'Built an end-to-end generative pipeline generating 100+ creative ad concepts and visual variations in hours rather than weeks.',
+          deliverables: ['Custom Prompt Architecture', 'Visual Moodboard Suite', 'Asset Generation Protocol', 'Quality Assurance Matrix'],
+          metricVal: '10x',
+          metricLabel: 'Faster Creative Turnaround'
+        }
+      },
+
+      'creative-strategy': {
+        title: 'Creative Strategy',
+        tagline: 'Campaign Concepts, White-Space Discovery & Big Ideas',
+        icon: '💡',
+        eyebrow: '✦ Creative Direction & Ideation',
+        desc: 'Bridging business metrics with boundary-pushing creative execution. We uncover market white-space, develop breakthrough campaign concepts, and architect messaging that captures cultural attention.',
+        ctaHeading: 'Ready to build a breakthrough creative campaign?',
+        servicesOffered: [
+          {
+            num: '01',
+            title: 'Big-Idea Campaign Concepting',
+            desc: 'Developing central narrative themes and creative umbrellas that seamlessly span video, digital, and social.'
+          },
+          {
+            num: '02',
+            title: 'Competitive Positioning & White Space',
+            desc: 'Analyzing category clichés to uncover uncontested visual and conceptual angles that stand out.'
+          },
+          {
+            num: '03',
+            title: 'Creative Briefing & Art Direction',
+            desc: 'Guiding designers, copywriters, and video editors with clear emotional targets, moodboards, and guidelines.'
+          },
+          {
+            num: '04',
+            title: 'Cross-Channel Storytelling Arcs',
+            desc: 'Structuring episodic narrative releases that sustain audience curiosity over multiple campaign phases.'
+          }
+        ],
+        tools: ['Miro', 'FigJam', 'Notion', 'Keynote', 'Figma', 'Milanote'],
+        work: {
+          title: 'Breakthrough Cross-Platform Brand Relaunch',
+          desc: 'Conceptualized and art-directed a disruptive multichannel creative campaign that earned viral social buzz and significant press coverage.',
+          deliverables: ['Master Creative Brief', 'Art Direction Deck', 'Campaign Storyboard Matrix', 'Channel Activation Plan'],
+          metricVal: '2.4M',
+          metricLabel: 'Earned Organic Impressions'
+        }
+      },
+
+      'analytics-cro': {
+        title: 'Analytics & CRO',
+        tagline: 'Friction Audits, Behavioral Heatmaps & A/B Experimentation',
+        icon: '📊',
+        eyebrow: '✦ Conversion Optimization',
+        desc: 'Turning raw behavioral telemetry into actionable conversion improvements. Quantitative funnel analytics, user session heatmaps, and systematic split-testing that drive compounding ROI.',
+        ctaHeading: 'Ready to turn more website visitors into paying customers?',
+        servicesOffered: [
+          {
+            num: '01',
+            title: 'Conversion Funnel & Friction Audits',
+            desc: 'Identifying drop-off bottlenecks, ambiguous form fields, and checkout hesitation points across user paths.'
+          },
+          {
+            num: '02',
+            title: 'Behavioral Heatmap & Session Tracking',
+            desc: 'Analyzing scroll depth, rage clicks, and attention hotspots using Hotjar and PostHog to unearth user confusion.'
+          },
+          {
+            num: '03',
+            title: 'Scientific A/B & Multivariate Testing',
+            desc: 'Formulating statistically sound test hypotheses, sample size calculations, and high-impact UI variants.'
+          },
+          {
+            num: '04',
+            title: 'Executive Metric & Attribution Dashboards',
+            desc: 'Building streamlined executive views showing conversion rates, revenue per visitor, and test outcomes.'
+          }
+        ],
+        tools: ['Google Analytics 4', 'Hotjar', 'Mixpanel', 'VWO', 'Google Tag Manager', 'Looker Studio'],
+        work: {
+          title: 'Onboarding & Checkout Optimization Sprint',
+          desc: 'Conducted rigorous user session audits and ran a 3-stage A/B testing cycle that eliminated friction in the payment funnel.',
+          deliverables: ['Friction Diagnostic Report', 'A/B Test Design Specs', 'Custom Tagging Configuration', 'Post-Experiment Analysis'],
+          metricVal: '+24.6%',
+          metricLabel: 'Checkout Completion Lift'
+        }
+      }
+    };
+
+    const serviceDetailView = document.getElementById('serviceDetailView');
+    let previousScrollPosition = 0;
+
+    function openServiceView(serviceId) {
+      const data = servicesDatabase[serviceId];
+      if (!data || !serviceDetailView) return;
+
+      previousScrollPosition = window.scrollY;
+
+      // Populate Data
+      document.getElementById('srvEyebrow').textContent = data.eyebrow;
+      document.getElementById('srvIcon').textContent = data.icon;
+      document.getElementById('srvTitle').textContent = data.title;
+      document.getElementById('srvTagline').textContent = data.tagline;
+      document.getElementById('srvDesc').textContent = data.desc;
+      document.getElementById('srvCtaHeading').textContent = data.ctaHeading;
+
+      // Update Contact CTA link subject
+      const contactUrl = 'mailto:sachinkumar629076@gmail.com?subject=' + encodeURIComponent('Inquiry: ' + data.title + ' Project with Krish Kumar');
+      const srvContactBtn = document.getElementById('srvContactBtn');
+      if (srvContactBtn) {
+        srvContactBtn.href = contactUrl;
+      }
+
+      // Populate Services Offered
+      const offeringsContainer = document.getElementById('srvOfferings');
+      offeringsContainer.innerHTML = '';
+      data.servicesOffered.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'offering-card';
+        card.innerHTML = '<div class="offering-num">' + item.num + '</div>' +
+          '<h4>' + item.title + '</h4>' +
+          '<p>' + item.desc + '</p>';
+        offeringsContainer.appendChild(card);
+      });
+
+      // Populate Tools
+      const toolsContainer = document.getElementById('srvTools');
+      toolsContainer.innerHTML = '';
+      data.tools.forEach(tool => {
+        const badge = document.createElement('div');
+        badge.className = 'tool-badge';
+        badge.innerHTML = '<span>✦</span> <span>' + tool + '</span>';
+        toolsContainer.appendChild(badge);
+      });
+
+      // Populate Work
+      document.getElementById('srvWorkTitle').textContent = data.work.title;
+      document.getElementById('srvWorkDesc').textContent = data.work.desc;
+      document.getElementById('srvMetricVal').textContent = data.work.metricVal;
+      document.getElementById('srvMetricLabel').textContent = data.work.metricLabel;
+
+      const deliverablesContainer = document.getElementById('srvDeliverables');
+      deliverablesContainer.innerHTML = '';
+      data.work.deliverables.forEach(d => {
+        const chip = document.createElement('span');
+        chip.className = 'deliverable-chip';
+        chip.textContent = d;
+        deliverablesContainer.appendChild(chip);
+      });
+
+      // Show View with smooth animation
+      document.body.classList.add('service-view-open');
+      serviceDetailView.setAttribute('aria-hidden', 'false');
+      serviceDetailView.classList.add('active');
+      serviceDetailView.scrollTop = 0;
+
+      // Re-bind magnetic buttons for newly visible elements
+      initMagneticButtons();
+
+      // Push history state so browser back button works
+      if (window.location.hash !== '#' + serviceId) {
+        window.history.pushState({ service: serviceId }, '', '#' + serviceId);
+      }
+    }
+
+    function closeServiceView() {
+      if (!serviceDetailView) return;
+      serviceDetailView.classList.remove('active');
+      serviceDetailView.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('service-view-open');
+
+      if (window.location.hash && servicesDatabase[window.location.hash.replace('#', '')]) {
+        window.history.pushState(null, '', window.location.pathname);
+      }
+
+      // Restore scroll position
+      window.scrollTo({ top: previousScrollPosition, behavior: 'instant' });
+    }
+
+    function closeServiceViewAndScrollContact() {
+      closeServiceView();
+      setTimeout(() => {
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+          contactSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+
+    // Handle browser popstate / back button
+    window.addEventListener('popstate', (e) => {
+      if (e.state && e.state.service && servicesDatabase[e.state.service]) {
+        openServiceView(e.state.service);
+      } else {
+        if (serviceDetailView && serviceDetailView.classList.contains('active')) {
+          closeServiceView();
+        }
+      }
+    });
+
+    // Check if URL has hash on initial load
+    window.addEventListener('DOMContentLoaded', () => {
+      const hash = window.location.hash.replace('#', '');
+      if (hash && servicesDatabase[hash]) {
+        openServiceView(hash);
+      }
+    });
+
+    // Allow escape key to close service view
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (serviceDetailView && serviceDetailView.classList.contains('active')) {
+          closeServiceView();
+        }
+      }
+    });
 
     function closeModal() {
       if (!detailModal) return;
