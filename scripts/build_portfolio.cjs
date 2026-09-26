@@ -5,6 +5,9 @@ const heroB64 = 'data:image/jpeg;base64,' + fs.readFileSync(path.join(__dirname,
 const aboutB64 = 'data:image/jpeg;base64,' + fs.readFileSync(path.join(__dirname, '../src/assets/images/krish_about_opt.jpg')).toString('base64');
 const brandB64 = 'data:image/jpeg;base64,' + fs.readFileSync(path.join(__dirname, '../src/assets/images/krish_brand_opt.jpg')).toString('base64');
 
+const projectsData = require('../src/data/projects.json');
+const servicesData = require('../src/data/services.json');
+
 const htmlContent = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1795,6 +1798,575 @@ const htmlContent = `<!DOCTYPE html>
       }
     }
 
+
+    /* =========================================================================
+       PROJECT DETAIL VIEW (DEDICATED FULL-PAGE VIEW)
+       ========================================================================= */
+    .project-detail-view {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1600;
+      background: var(--bg);
+      overflow-y: auto;
+      overflow-x: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(28px) scale(0.995);
+      transition: opacity 0.32s var(--ease-out-expo), transform 0.32s var(--ease-out-expo), visibility 0.32s;
+      padding-bottom: 100px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .project-detail-view.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+
+    body.project-view-open {
+      overflow: hidden;
+    }
+
+    .project-nav-bar {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 72px;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 max(24px, env(safe-area-inset-left)) 0 max(24px, env(safe-area-inset-right));
+      z-index: 30;
+    }
+
+    .project-nav-brand {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .project-header-hero {
+      background: linear-gradient(180deg, var(--bg2) 0%, #FFFFFF 100%);
+      border-radius: var(--radius-lg);
+      padding: 44px 40px;
+      margin-top: 24px;
+      border: 1px solid var(--line);
+      position: relative;
+    }
+
+    .project-eyebrow-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .project-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--sub);
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+    }
+
+    .project-status-pill {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink);
+      background: rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--line-light);
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+    }
+
+    .project-view-title {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      margin-bottom: 10px;
+    }
+
+    .project-view-tagline {
+      font-size: clamp(16px, 2.2vw, 20px);
+      font-weight: 600;
+      color: var(--sub);
+      margin-bottom: 28px;
+      line-height: 1.45;
+    }
+
+    .project-meta-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      padding: 22px 26px;
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .project-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .project-meta-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--sub);
+    }
+
+    .project-meta-val {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      word-break: break-word;
+    }
+
+    .project-section-block {
+      padding: 50px 0;
+      border-bottom: 1px solid var(--line-light);
+    }
+
+    .project-subhead {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--ink);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .project-subhead::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--ink);
+    }
+
+    .project-overview-text {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--ink);
+      max-width: 920px;
+    }
+
+    .project-dual-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .project-info-card {
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 30px;
+    }
+
+    .project-info-card h4 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .project-info-card p {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--sub);
+    }
+
+    .project-strategy-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .project-strategy-card {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 26px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .strategy-step-num {
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--sub);
+      letter-spacing: 0.1em;
+      margin-bottom: 10px;
+    }
+
+    .strategy-step-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .strategy-step-desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--sub);
+    }
+
+    .project-work-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .project-work-item {
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .project-work-item:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .project-work-item h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .project-work-item p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--sub);
+    }
+
+    .project-tool-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      padding: 10px 18px;
+      border-radius: var(--radius-pill);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .project-tool-pill:hover {
+      transform: translateY(-2px);
+      border-color: var(--ink);
+    }
+
+    .screenshots-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .screenshot-card {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.3s var(--ease-out-expo), box-shadow 0.3s var(--ease-out-expo);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .screenshot-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .screenshot-visual-frame {
+      height: 220px;
+      background: linear-gradient(145deg, #F8F8FA 0%, #EAEAEF 100%);
+      position: relative;
+      border-bottom: 1px solid var(--line-light);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .screenshot-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .screenshot-mockup-inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 12px 16px;
+      justify-content: space-between;
+    }
+
+    .mockup-window-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 6px;
+      padding: 6px 10px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .mockup-address-bar {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--sub);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .mockup-screen-body {
+      background: #FFFFFF;
+      border-radius: 8px;
+      padding: 14px;
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+    }
+
+    .mockup-metric-preview {
+      display: flex;
+      gap: 8px;
+    }
+
+    .mockup-metric-chip {
+      font-size: 10px;
+      font-weight: 800;
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      padding: 3px 8px;
+      border-radius: 4px;
+      color: var(--ink);
+    }
+
+    .screenshot-body-info {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .screenshot-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--sub);
+      background: var(--bg2);
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+      align-self: flex-start;
+    }
+
+    .screenshot-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .screenshot-caption {
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--sub);
+    }
+
+    .project-results-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .result-metric-card {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 28px 24px;
+      box-shadow: var(--shadow-sm);
+      text-align: left;
+    }
+
+    .result-metric-number {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4vw, 46px);
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .result-metric-label {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--sub);
+      margin-bottom: 10px;
+    }
+
+    .result-metric-desc {
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--sub);
+    }
+
+    .project-live-banner {
+      background: var(--ink);
+      color: #FFFFFF;
+      border-radius: var(--radius-lg);
+      padding: 48px 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-top: 56px;
+    }
+
+    .project-live-banner h3 {
+      color: #FFFFFF;
+      font-size: clamp(24px, 3.5vw, 36px);
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .project-live-banner p {
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 16px;
+      max-width: 560px;
+    }
+
+    .btn-white {
+      background: #FFFFFF;
+      color: var(--ink);
+      border: 1px solid #FFFFFF;
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    }
+
+    .btn-white:hover {
+      background: #F2F2F4;
+      transform: translateY(-1px);
+    }
+
+    .project-bottom-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 40px 0 20px 0;
+      border-top: 1px solid var(--line);
+      margin-top: 48px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 1024px) {
+      .project-meta-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .project-strategy-steps {
+        grid-template-columns: 1fr;
+      }
+      .screenshots-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .project-results-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .project-header-hero {
+        padding: 30px 22px;
+      }
+      .project-meta-strip {
+        grid-template-columns: 1fr;
+      }
+      .project-dual-cards {
+        grid-template-columns: 1fr;
+      }
+      .project-work-grid {
+        grid-template-columns: 1fr;
+      }
+      .screenshots-grid {
+        grid-template-columns: 1fr;
+      }
+      .project-results-grid {
+        grid-template-columns: 1fr;
+      }
+      .project-live-banner {
+        padding: 32px 24px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .project-live-banner .btn {
+        width: 100%;
+      }
+      .project-bottom-nav {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .project-bottom-nav > div {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+
   </style>
 
   <!-- Schema.org Structured Data -->
@@ -2118,10 +2690,10 @@ const htmlContent = `<!DOCTYPE html>
         <h2 class="section-title">Selected Work</h2>
       </div>
 
-      <!-- 2-column grid of 6 project cards -->
+      <!-- 2-column grid of project cards -->
       <div class="work-grid">
-        <!-- 01 -->
-        <article class="project-card reveal-item" onclick="openModal('Digital Marketing Campaign', 'End-to-end campaign strategy and execution designed to grow reach and engagement. Achieved a 3.4x ROAS and scaled paid subscriber base through synchronized Meta Ads and Google Search campaigns.', 'Meta Ads · Google Ads · Analytics · Attribution')">
+        <!-- 01 Digital Marketing Campaign -->
+        <article class="project-card reveal-item" onclick="openProjectView('digital-marketing-campaign')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openProjectView('digital-marketing-campaign')" aria-label="Open detailed case study for Digital Marketing Campaign">
           <div class="project-visual">
             <div class="project-num-faint">01</div>
             <div class="project-preview-mockup">
@@ -2142,12 +2714,12 @@ const htmlContent = `<!DOCTYPE html>
             <div class="project-tools">
               <span class="project-tools-label">Tools:</span> Meta Ads · Google Ads · Analytics
             </div>
-            <span class="project-link">View Project →</span>
+            <button type="button" class="project-link" onclick="event.stopPropagation(); openProjectView('digital-marketing-campaign');">View Project →</button>
           </div>
         </article>
 
-        <!-- 02 -->
-        <article class="project-card reveal-item" onclick="openModal('Social Media Strategy', 'Content calendars and platform-specific strategy built around audience growth. Spearheaded organic creative carousels and reels, elevating community engagement by 180% in 90 days.', 'Instagram · TikTok · Content Planning · Notion')">
+        <!-- 02 Social Media Strategy -->
+        <article class="project-card reveal-item" onclick="openProjectView('social-media-strategy')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openProjectView('social-media-strategy')" aria-label="Open detailed case study for Social Media Strategy">
           <div class="project-visual">
             <div class="project-num-faint">02</div>
             <div class="project-preview-mockup">
@@ -2168,18 +2740,18 @@ const htmlContent = `<!DOCTYPE html>
             <div class="project-tools">
               <span class="project-tools-label">Tools:</span> Instagram · Content Planning
             </div>
-            <span class="project-link">View Project →</span>
+            <button type="button" class="project-link" onclick="event.stopPropagation(); openProjectView('social-media-strategy');">View Project →</button>
           </div>
         </article>
 
-        <!-- 03 -->
-        <article class="project-card reveal-item" onclick="openModal('UI/UX Design', 'User-centered interface design from wireframes through polished, tested screens. Conducted usability interviews and structured a frictionless onboarding flow that lowered churn by 26%.', 'Figma · Prototyping · Usability Testing · Design Tokens')">
+        <!-- 03 Performance Marketing -->
+        <article class="project-card reveal-item" onclick="openProjectView('performance-marketing')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openProjectView('performance-marketing')" aria-label="Open detailed case study for Performance Marketing">
           <div class="project-visual">
             <div class="project-num-faint">03</div>
             <div class="project-preview-mockup">
               <div class="mockup-header">
                 <div class="mockup-dots"><span></span><span></span><span></span></div>
-                <span class="mockup-badge">Component System</span>
+                <span class="mockup-badge">Paid Search & ROAS</span>
               </div>
               <div class="mockup-content-bars">
                 <div class="mockup-bar w-40"></div>
@@ -2189,77 +2761,77 @@ const htmlContent = `<!DOCTYPE html>
             </div>
           </div>
           <div class="project-body">
-            <h3 class="project-title">03 UI/UX Design</h3>
-            <p class="project-desc">User-centered interface design from wireframes through polished, tested screens.</p>
+            <h3 class="project-title">03 Performance Marketing</h3>
+            <p class="project-desc">High-precision paid search, display retargeting, and rigorous unit economics.</p>
             <div class="project-tools">
-              <span class="project-tools-label">Tools:</span> Figma · Prototyping
+              <span class="project-tools-label">Tools:</span> Google Ads · LinkedIn · SEMrush
             </div>
-            <span class="project-link">View Project →</span>
+            <button type="button" class="project-link" onclick="event.stopPropagation(); openProjectView('performance-marketing');">View Project →</button>
           </div>
         </article>
 
-        <!-- 04 -->
-        <article class="project-card reveal-item" onclick="openModal('Branding & Creative Design', 'Visual identity systems — logo, typography and brand guidelines. Crafted an authentic aesthetic language across digital touchpoints, packaging, and marketing collateral.', 'Illustrator · Photoshop · Brand Systems · Typography')">
+        <!-- 04 UI/UX Design -->
+        <article class="project-card reveal-item" onclick="openProjectView('ui-ux-design')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openProjectView('ui-ux-design')" aria-label="Open detailed case study for UI/UX Design">
           <div class="project-visual">
             <div class="project-num-faint">04</div>
+            <div class="project-preview-mockup">
+              <div class="mockup-header">
+                <div class="mockup-dots"><span></span><span></span><span></span></div>
+                <span class="mockup-badge">Design System</span>
+              </div>
+              <div class="mockup-content-bars">
+                <div class="mockup-bar w-70"></div>
+                <div class="mockup-bar w-40"></div>
+                <div class="mockup-bar w-90"></div>
+              </div>
+            </div>
+          </div>
+          <div class="project-body">
+            <h3 class="project-title">04 UI/UX Design System</h3>
+            <p class="project-desc">User-centered interface design from wireframes through polished, tested screens.</p>
+            <div class="project-tools">
+              <span class="project-tools-label">Tools:</span> Figma · Prototyping · Tokens
+            </div>
+            <button type="button" class="project-link" onclick="event.stopPropagation(); openProjectView('ui-ux-design');">View Project →</button>
+          </div>
+        </article>
+
+        <!-- 05 Branding & Creative Design -->
+        <article class="project-card reveal-item" onclick="openProjectView('branding-creative-design')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openProjectView('branding-creative-design')" aria-label="Open detailed case study for Branding & Creative Design">
+          <div class="project-visual">
+            <div class="project-num-faint">05</div>
             <div class="project-preview-mockup">
               <div class="mockup-header">
                 <div class="mockup-dots"><span></span><span></span><span></span></div>
                 <span class="mockup-badge">Visual Identity</span>
               </div>
               <div class="mockup-content-bars">
+                <div class="mockup-bar w-90"></div>
                 <div class="mockup-bar w-70"></div>
                 <div class="mockup-bar w-40"></div>
-                <div class="mockup-bar w-90"></div>
               </div>
             </div>
           </div>
           <div class="project-body">
-            <h3 class="project-title">04 Branding & Creative Design</h3>
-            <p class="project-desc">Visual identity systems — logo, typography and brand guidelines.</p>
+            <h3 class="project-title">05 Branding & Creative Design</h3>
+            <p class="project-desc">Visual identity systems — logo, typography and comprehensive brand guidelines.</p>
             <div class="project-tools">
-              <span class="project-tools-label">Tools:</span> Illustrator · Brand Systems
+              <span class="project-tools-label">Tools:</span> Illustrator · Photoshop · Brand Systems
             </div>
-            <span class="project-link">View Project →</span>
+            <button type="button" class="project-link" onclick="event.stopPropagation(); openProjectView('branding-creative-design');">View Project →</button>
           </div>
         </article>
 
-        <!-- 05 -->
-        <article class="project-card reveal-item" onclick="openModal('AI Study Assistant', 'An AI-powered tool concept to help students plan and track their learning. Features adaptive study schedules, active recall flashcards, and natural language knowledge query models.', 'AI Tools · UX Design · LLM Workflows · Wireframing')">
+        <!-- 06 AI Study Assistant -->
+        <article class="project-card reveal-item" onclick="openProjectView('ai-study-assistant')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openProjectView('ai-study-assistant')" aria-label="Open detailed case study for AI Study Assistant">
           <div class="project-visual">
-            <div class="project-num-faint">05</div>
+            <div class="project-num-faint">06</div>
             <div class="project-preview-mockup">
               <div class="mockup-header">
                 <div class="mockup-dots"><span></span><span></span><span></span></div>
                 <span class="mockup-badge">AI Assistant HUD</span>
               </div>
               <div class="mockup-content-bars">
-                <div class="mockup-bar w-90"></div>
-                <div class="mockup-bar w-70"></div>
-                <div class="mockup-bar w-40"></div>
-              </div>
-            </div>
-          </div>
-          <div class="project-body">
-            <h3 class="project-title">05 AI Study Assistant</h3>
-            <p class="project-desc">An AI-powered tool concept to help students plan and track their learning.</p>
-            <div class="project-tools">
-              <span class="project-tools-label">Tools:</span> AI Tools · UX Design
-            </div>
-            <span class="project-link">View Project →</span>
-          </div>
-        </article>
-
-        <!-- 06 -->
-        <article class="project-card reveal-item" onclick="openModal('Digital Marketing Dashboard', 'A clean analytics dashboard concept for tracking campaign performance. Synthesizes multi-channel spend, attribution paths, and conversion milestones into intuitive visual charts.', 'Figma · Data Viz · Analytics UI · Modular Grid')">
-          <div class="project-visual">
-            <div class="project-num-faint">06</div>
-            <div class="project-preview-mockup">
-              <div class="mockup-header">
-                <div class="mockup-dots"><span></span><span></span><span></span></div>
-                <span class="mockup-badge">Analytics Core</span>
-              </div>
-              <div class="mockup-content-bars">
                 <div class="mockup-bar w-40"></div>
                 <div class="mockup-bar w-90"></div>
                 <div class="mockup-bar w-70"></div>
@@ -2267,12 +2839,12 @@ const htmlContent = `<!DOCTYPE html>
             </div>
           </div>
           <div class="project-body">
-            <h3 class="project-title">06 Digital Marketing Dashboard</h3>
-            <p class="project-desc">A clean analytics dashboard concept for tracking campaign performance.</p>
+            <h3 class="project-title">06 AI Study Assistant</h3>
+            <p class="project-desc">An AI-powered tool concept to help students plan, memorize, and master complex subjects.</p>
             <div class="project-tools">
-              <span class="project-tools-label">Tools:</span> Figma · Data Viz
+              <span class="project-tools-label">Tools:</span> AI Tools · UX Design · Prompt Flow
             </div>
-            <span class="project-link">View Project →</span>
+            <button type="button" class="project-link" onclick="event.stopPropagation(); openProjectView('ai-study-assistant');">View Project →</button>
           </div>
         </article>
       </div>
@@ -2514,6 +3086,175 @@ const htmlContent = `<!DOCTYPE html>
           <a href="#contact" id="srvContactBtn" onclick="closeServiceViewAndScrollContact()" class="btn btn-white magnetic">
             Contact Me →
           </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- DEDICATED PROJECT DETAIL VIEW (FULL-PAGE SMOOTH OVERLAY) -->
+  <div class="project-detail-view" id="projectDetailView" aria-hidden="true" role="dialog" aria-modal="true">
+    <!-- Top Sticky Nav Bar -->
+    <div class="project-nav-bar">
+      <button class="btn btn-outline magnetic" onclick="closeProjectView()" aria-label="Return to selected work">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Back to Projects
+      </button>
+
+      <div class="project-nav-brand">
+        Krish Kumar <span style="color:var(--sub); font-weight:400; font-size:13px; margin-left:4px;">· Case Study</span>
+      </div>
+
+      <div class="project-nav-actions" style="display: flex; gap: 10px; align-items: center;">
+        <a id="navLiveProjectBtn" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline magnetic" style="font-size: 13px; padding: 10px 18px;">
+          Live Site ↗
+        </a>
+        <a href="#contact" onclick="closeProjectViewAndScrollContact()" class="btn btn-dark magnetic" style="font-size: 13px; padding: 10px 18px;">
+          Let's Talk
+        </a>
+      </div>
+    </div>
+
+    <div class="container" style="padding-top: 24px;">
+      <!-- Project Header / Hero -->
+      <div class="project-header-hero">
+        <div class="project-eyebrow-wrap">
+          <div class="project-eyebrow">
+            <span id="prjNum">01</span> / <span id="prjCategory">Growth & Acquisition</span>
+          </div>
+          <span class="project-status-pill" id="prjTimelineBadge">2025 · 4 Months</span>
+        </div>
+
+        <h1 class="project-view-title" id="prjTitle">Digital Marketing Campaign</h1>
+        <div class="project-view-tagline" id="prjTagline">Full-Funnel Paid Acquisition & Scaled Conversion Telemetry</div>
+
+        <!-- Metadata Strip: Role, Client/Domain, Timeline, Live Link -->
+        <div class="project-meta-strip">
+          <div class="project-meta-item">
+            <span class="project-meta-label">Role</span>
+            <span class="project-meta-val" id="prjRole">Lead Growth Strategist</span>
+          </div>
+          <div class="project-meta-item">
+            <span class="project-meta-label">Client / Industry</span>
+            <span class="project-meta-val" id="prjClient">FinTech Global</span>
+          </div>
+          <div class="project-meta-item">
+            <span class="project-meta-label">Timeline</span>
+            <span class="project-meta-val" id="prjTimeline">Q3-Q4 2025</span>
+          </div>
+          <div class="project-meta-item">
+            <span class="project-meta-label">Live Link</span>
+            <a id="prjHeaderLiveLink" href="#" target="_blank" rel="noopener noreferrer" class="project-meta-val" style="color: var(--ink); text-decoration: underline; display: flex; align-items: center; gap: 4px;">
+              <span id="prjHeaderLiveText">Visit Website</span> ↗
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 1: Project Overview -->
+      <div class="project-section-block">
+        <div class="project-subhead">Project Overview</div>
+        <p class="project-overview-text" id="prjOverview">
+          Detailed overview of the case study...
+        </p>
+      </div>
+
+      <!-- Section 2: Objective & Core Challenges -->
+      <div class="project-section-block">
+        <div class="project-subhead">Objectives & Challenges</div>
+        <div class="project-dual-cards">
+          <div class="project-info-card">
+            <h4>
+              <span style="font-size: 18px;">🎯</span> Project Objective
+            </h4>
+            <p id="prjObjective">Core targets and goals...</p>
+          </div>
+          <div class="project-info-card">
+            <h4>
+              <span style="font-size: 18px;">⚡</span> Core Challenges
+            </h4>
+            <p id="prjChallenges">Bottlenecks and design problems overcome...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Strategy & Execution Framework -->
+      <div class="project-section-block">
+        <div class="project-subhead">Strategic Approach & Execution</div>
+        <p class="project-overview-text" id="prjStrategy" style="margin-bottom: 24px;">Strategic framework...</p>
+        <div class="project-strategy-steps" id="prjStrategyPillars">
+          <!-- Dynamically populated 3-pillar cards -->
+        </div>
+      </div>
+
+      <!-- Section 4: Services / Work Done -->
+      <div class="project-section-block">
+        <div class="project-subhead">Services / Work Done</div>
+        <div class="project-work-grid" id="prjWorkDone">
+          <!-- Dynamically populated deliverable cards -->
+        </div>
+      </div>
+
+      <!-- Section 5: Tools Used -->
+      <div class="project-section-block">
+        <div class="project-subhead">Tools & Technologies Used</div>
+        <div class="tools-pills-wrap" id="prjTools">
+          <!-- Dynamically populated tool pills -->
+        </div>
+      </div>
+
+      <!-- Section 6: Images / Screenshots Showcase -->
+      <div class="project-section-block">
+        <div class="project-subhead">Visual Showcase & Screenshots</div>
+        <p style="color: var(--sub); font-size: 14px; margin-bottom: 24px;">
+          High-fidelity design screens, campaign creative variations, and performance dashboards.
+        </p>
+        <div class="screenshots-grid" id="prjScreenshots">
+          <!-- Dynamically populated screenshot cards with device chrome and captions -->
+        </div>
+      </div>
+
+      <!-- Section 7: Results & Key Metrics -->
+      <div class="project-section-block">
+        <div class="project-subhead">Results & Measurable Impact</div>
+        <div class="project-results-grid" id="prjResults">
+          <!-- Dynamically populated stat metric cards -->
+        </div>
+      </div>
+
+      <!-- Section 8: Live Project / Website Link & CTA Banner -->
+      <div class="project-live-banner">
+        <div>
+          <span style="display:inline-block; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.16em; opacity:0.8; margin-bottom:8px;">Experience The Work</span>
+          <h3 id="prjCtaHeading">Ready to explore the live project?</h3>
+          <p id="prjCtaSubtext">Check out the live deployment or interactive prototype to see the full experience in action.</p>
+        </div>
+        <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
+          <a id="prjLiveBannerBtn" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-white magnetic">
+            <span id="prjLiveBannerBtnText">Visit Live Website ↗</span>
+          </a>
+          <a href="#contact" onclick="closeProjectViewAndScrollContact()" class="btn btn-outline" style="color: #FFFFFF; border-color: rgba(255, 255, 255, 0.4);">
+            Discuss Similar Project →
+          </a>
+        </div>
+      </div>
+
+      <!-- Bottom Navigation: Back to Projects & Prev/Next Switcher -->
+      <div class="project-bottom-nav">
+        <button class="btn btn-outline magnetic" onclick="closeProjectView()">
+          ← Back to Selected Work
+        </button>
+
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <button class="btn btn-outline magnetic" id="prjPrevBtn" onclick="navigateProject('prev')">
+            ← Previous Project
+          </button>
+          <button class="btn btn-dark magnetic" id="prjNextBtn" onclick="navigateProject('next')">
+            Next Project →
+          </button>
         </div>
       </div>
     </div>
@@ -2858,475 +3599,224 @@ const htmlContent = `<!DOCTYPE html>
 
 
     // 9. DEDICATED SERVICE DETAIL PAGES & SMOOTH TRANSITIONS
-    const servicesDatabase = {
-      'digital-marketing': {
-        title: 'Digital Marketing',
-        tagline: 'Strategic Omnichannel Growth & Acquisition',
-        icon: '🎯',
-        eyebrow: '✦ Core Strategy & Performance',
-        desc: 'Full-funnel digital marketing strategies combining deep audience segmentation, paid performance, organic reach, and conversion rate optimization to drive measurable revenue growth and high-fidelity brand recall.',
-        ctaHeading: 'Ready to scale with high-impact Digital Marketing?',
-        servicesOffered: [
-          {
-            num: '01',
-            title: 'Multi-Channel Acquisition Strategy',
-            desc: 'Mapping complete customer journeys from top-of-funnel discovery to high-value customer retention across paid and organic channels.'
-          },
-          {
-            num: '02',
-            title: 'Campaign Ideation & Creative Execution',
-            desc: 'Designing high-converting creative ad suites paired with rigorous iterative testing frameworks to prevent ad fatigue.'
-          },
-          {
-            num: '03',
-            title: 'Conversion Rate Optimization (CRO)',
-            desc: 'Comprehensive landing page audits, behavioral heatmap analytics, and systematic A/B experiments that plug conversion leaks.'
-          },
-          {
-            num: '04',
-            title: 'Attribution & Executive Telemetry',
-            desc: 'Multi-touch attribution modeling, custom Google Tag Manager configurations, and transparent Looker Studio dashboards.'
-          }
-        ],
-        tools: ['Meta Ads Manager', 'Google Ads', 'Google Analytics 4', 'Semrush', 'HubSpot', 'Triple Whale', 'Hotjar', 'Mailchimp'],
-        work: {
-          title: 'Omnichannel Customer Acquisition Engine',
-          desc: 'Developed and orchestrated a unified paid and organic marketing funnel for a fast-scaling subscription platform, optimizing ad spend and user retention across 4 distinct customer personas.',
-          deliverables: ['Full-Funnel Paid Strategy', '30+ Custom Ad Creatives', 'High-Converting Landing Pages', 'GA4 Event Architecture'],
-          metricVal: '3.4x',
-          metricLabel: 'Attributed Blended ROAS'
-        }
-      },
 
-      'social-media-marketing': {
-        title: 'Social Media Marketing',
-        tagline: 'High-Engagement Community & Viral Content Architecture',
-        icon: '📱',
-        eyebrow: '✦ Audience & Social Storytelling',
-        desc: 'Strategic social presence architecture built around authentic storytelling, community-first interaction, and trend-responsive formats to cultivate loyal audiences that actively advocate for your brand.',
-        ctaHeading: 'Ready to build an authentic, engaged social community?',
-        servicesOffered: [
-          {
-            num: '01',
-            title: 'Editorial Calendar & Content Planning',
-            desc: 'Structured 30/60/90-day publishing schedules aligned with product launches, seasonal campaigns, and cultural moments.'
-          },
-          {
-            num: '02',
-            title: 'Short-Form Video & Reel Direction',
-            desc: 'High-retention hooks, visual pacing, audio synchronization, and script direction tailored to Instagram and TikTok algorithms.'
-          },
-          {
-            num: '03',
-            title: 'Community Dialogue & Brand Voice',
-            desc: 'Active community engagement, conversational comment strategies, and rapid direct response that turns followers into brand champions.'
-          },
-          {
-            num: '04',
-            title: 'Creator & Micro-Influencer Collabs',
-            desc: 'Curating, vetting, briefing, and managing micro-influencer campaigns with trackable affiliate links and clear deliverable guidelines.'
-          }
-        ],
-        tools: ['Instagram Creator Studio', 'TikTok Ads Manager', 'Notion', 'CapCut Pro', 'Canva Pro', 'Buffer', 'Later', 'Meta Business'],
-        work: {
-          title: 'Viral Social Community Acceleration',
-          desc: 'Revamped the organic social architecture for a lifestyle brand with high-retention carousel breakdowns and relatable reels that scaled impressions exponentially without relying purely on ad spend.',
-          deliverables: ['90-Day Content Roadmap', '48 Bespoke Carousel Assets', '16 Viral Video Blueprints', 'Influencer Briefing Deck'],
-          metricVal: '+180%',
-          metricLabel: 'Quarterly Engagement Growth'
-        }
-      },
+    // =========================================================================
+    // EASY-TO-EDIT PROJECTS DATABASE
+    // To update or replace any project's text, images, screenshots, tools, or links:
+    // Simply modify the fields below in projectsDatabase.
+    // To add your own screenshot image: set image: "https://your-image-url.com/image.jpg"
+    // or use a base64 data URI. If left blank, a clean editorial mockup is generated.
+    // =========================================================================
+    const projectsDatabase = ${JSON.stringify(projectsData, null, 2)};
 
-      'performance-marketing': {
-        title: 'Performance Marketing',
-        tagline: 'Algorithmic Paid Acquisition, CAC Compression & Scaling',
-        icon: '⚡',
-        eyebrow: '✦ Paid Acquisition & ROI',
-        desc: 'Relentlessly data-driven customer acquisition. We architect scalable paid media campaigns across Meta, Google Search/Shopping, and TikTok with obsessive focus on Customer Acquisition Cost (CAC), Lifetime Value (LTV), and profit margins.',
-        ctaHeading: 'Ready to compress CAC and scale paid acquisition?',
-        servicesOffered: [
-          {
-            num: '01',
-            title: 'Paid Search & Performance Max (PMax)',
-            desc: 'High-intent search keyword architecture, negative keyword sculpts, and Performance Max asset group optimization.'
-          },
-          {
-            num: '02',
-            title: 'Paid Social Dynamic Creative Testing (DCT)',
-            desc: 'Iterative 3:2:2 dynamic creative testing systems identifying winning hook, copy, and visual combinations before scaling budget.'
-          },
-          {
-            num: '03',
-            title: 'Retargeting & LTV Funnel Design',
-            desc: 'Segmented custom audience funnels, cart abandonment recapture, and VIP customer retention loops.'
-          },
-          {
-            num: '04',
-            title: 'Budget Scaling & Bid Strategy Automation',
-            desc: 'Algorithmic cost-cap and target-ROAS bidding rules that safeguard profit margins during aggressive scaling phases.'
-          }
-        ],
-        tools: ['Meta Ads Manager', 'Google Ads', 'TikTok Ads', 'Triple Whale', 'Google Tag Manager', 'Looker Studio', 'PostHog'],
-        work: {
-          title: 'Multi-Market E-Commerce Scale Sprint',
-          desc: 'Restructured fragmented ad accounts into a consolidated Advantage+ and DCT framework, improving liquidity and driving sustainable revenue growth.',
-          deliverables: ['Account Consolidation Architecture', '50+ Dynamic Creative Sets', 'Server-Side CAPI Setup', 'Live ROAS Tracking'],
-          metricVal: '-38%',
-          metricLabel: 'Customer Acquisition Cost'
-        }
-      },
+    const projectDetailView = document.getElementById('projectDetailView');
+    let currentOpenProjectId = null;
+    let previousProjectScrollPosition = 0;
 
-      'content-strategy': {
-        title: 'Content Strategy',
-        tagline: 'Authority Building, Inbound Frameworks & Narrative Design',
-        icon: '✍️',
-        eyebrow: '✦ Editorial & Narrative Architecture',
-        desc: 'Transforming brand narratives into strategic commercial assets. We develop high-resonance content frameworks that educate prospective buyers, establish category authority, and guide users smoothly toward conversion.',
-        ctaHeading: 'Ready to turn content into your top acquisition channel?',
-        servicesOffered: [
-          {
-            num: '01',
-            title: 'Brand Tone of Voice & Lexicon Design',
-            desc: 'Codifying distinct brand voice guidelines, messaging pillars, and terminology libraries that unify company communications.'
-          },
-          {
-            num: '02',
-            title: 'Customer Intent Journey Mapping',
-            desc: 'Aligning content formats (educational TOFU guides, comparison MOFU teardowns, proof BOFU studies) with user purchasing intent.'
-          },
-          {
-            num: '03',
-            title: 'Thought Leadership & Technical Articles',
-            desc: 'Deep-dive essays, executive ghostwriting, case study whitepapers, and industry analysis that build undeniable credibility.'
-          },
-          {
-            num: '04',
-            title: 'Content Repurposing & Distribution Engine',
-            desc: 'Systematic workflows extracting multi-slide carousels, executive tweets, newsletters, and visual summaries from each pillar piece.'
-          }
-        ],
-        tools: ['Notion', 'Grammarly Business', 'Semrush', 'Surfer SEO', 'Substack', 'Google Docs', 'Figma'],
-        work: {
-          title: 'B2B Category Authority Content Pipeline',
-          desc: 'Architected an educational content ecosystem breaking down complex digital workflows into actionable guides, driving high-intent organic inbound inquiries.',
-          deliverables: ['12 Long-Form Pillar Guides', 'Complete Style & Tone Manual', 'Distribution Checklist', 'Automated Email Nurture Drip'],
-          metricVal: '210%',
-          metricLabel: 'Organic Search Traffic Lift'
-        }
-      },
+    function openProjectView(projectId) {
+      const data = projectsDatabase[projectId];
+      if (!data || !projectDetailView) return;
 
-      'ui-ux-design': {
-        title: 'UI/UX Design',
-        tagline: 'Human-Centered Digital Products & Frictionless Interfaces',
-        icon: '✨',
-        eyebrow: '✦ Interaction & Product Design',
-        desc: 'Crafting intuitive, human-centered digital experiences where aesthetic delight meets frictionless utility. From deep user research and wireframing to pixel-perfect design systems ready for engineering handoff.',
-        ctaHeading: 'Ready to build an intuitive, unforgettable digital product?',
-        servicesOffered: [
-          {
-            num: '01',
-            title: 'User Research & Journey Mapping',
-            desc: 'Qualitative user interviews, competitive benchmarking, heuristic evaluation, and persona friction mapping.'
-          },
-          {
-            num: '02',
-            title: 'Information Architecture & Wireframing',
-            desc: 'Clean spatial layouts, intuitive navigation trees, and low-fidelity structural blueprints designed for effortless usability.'
-          },
-          {
-            num: '03',
-            title: 'High-Fidelity Interface Design',
-            desc: 'Modern typography scales, accessible color systems (WCAG 2.1 AA), fluid responsive layouts, and polished micro-interactions.'
-          },
-          {
-            num: '04',
-            title: 'Interactive Clickable Prototyping',
-            desc: 'Realistic user flow prototypes mimicking production software transitions to validate concepts with stakeholders and test users.'
-          }
-        ],
-        tools: ['Figma', 'FigJam', 'Framer', 'Principle', 'Maze', 'Lottie', 'Whimsical', 'Adobe CC'],
-        work: {
-          title: 'Fintech Mobile & Web Banking Dashboard',
-          desc: 'Redesigned the multi-currency asset dashboard and payment flow from the ground up, reducing cognitive overhead and streamlining transaction completion.',
-          deliverables: ['80+ Responsive Screens', 'Clickable Figma Prototype', 'Usability Testing Synthesis', 'Design System Spec Sheet'],
-          metricVal: '-42%',
-          metricLabel: 'Onboarding Flow Drop-Off'
-        }
-      },
+      currentOpenProjectId = projectId;
+      previousProjectScrollPosition = window.scrollY;
 
-      'figma': {
-        title: 'Figma Systems & Prototyping',
-        tagline: 'Design Token Architecture, Auto-Layout & Component Libraries',
-        icon: '🎨',
-        eyebrow: '✦ Design Engineering & Systems',
-        desc: 'Industry-standard design engineering inside Figma. Building scalable token architectures, robust multi-brand component libraries, auto-layout masterpieces, and interactive developer-ready documentation.',
-        ctaHeading: 'Ready to supercharge design team velocity with a Figma system?',
-        servicesOffered: [
-          {
-            num: '01',
-            title: 'Variables & Design Token Architecture',
-            desc: 'Semantic color tokens, spacing scales, typography variables, and dark/light mode switches configured for effortless code translation.'
-          },
-          {
-            num: '02',
-            title: 'Modular Component Systems & Variants',
-            desc: 'Component sets featuring unified variants, boolean property toggles, and slot components that eliminate redundant layers.'
-          },
-          {
-            num: '03',
-            title: 'Auto-Layout 5.0 & Fluid Constraints',
-            desc: 'Layouts that mirror real-world flexbox and CSS grid behavior, ensuring designs adapt seamlessly across any viewport width.'
-          },
-          {
-            num: '04',
-            title: 'Developer Handoff & Redline Specs',
-            desc: 'Clean naming conventions, interactive states, token mappings, and annotated documentation for friction-free frontend builds.'
-          }
-        ],
-        tools: ['Figma Variables', 'Auto Layout 5.0', 'Tokens Studio', 'Component Properties', 'Zeroheight', 'Storybook', 'FigJam'],
-        work: {
-          title: 'Enterprise Multi-Product Design System',
-          desc: 'Engineered a unified design system of 450+ atomic components for a SaaS ecosystem, enabling product squads to ship new features twice as fast.',
-          deliverables: ['450+ Atomic Components', 'Semantic Variable Collections', 'Responsive Screen Templates', 'Developer Handoff Guide'],
-          metricVal: '60%',
-          metricLabel: 'Faster Design Handoff Cycles'
-        }
-      },
+      // Populate Header
+      document.getElementById('prjNum').textContent = data.number || '01';
+      document.getElementById('prjCategory').textContent = data.category || 'Featured Case Study';
+      document.getElementById('prjTimelineBadge').textContent = data.timelineBadge || data.timeline || '2025';
+      document.getElementById('prjTitle').textContent = data.title;
+      document.getElementById('prjTagline').textContent = data.tagline;
+      document.getElementById('prjRole').textContent = data.role;
+      document.getElementById('prjClient').textContent = data.client;
+      document.getElementById('prjTimeline').textContent = data.timeline;
 
-      'seo': {
-        title: 'SEO & Search Growth',
-        tagline: 'Technical Audits, High-Intent Keywords & Compounding Traffic',
-        icon: '🔍',
-        eyebrow: '✦ Organic Search Strategy',
-        desc: 'Organic search visibility that compounds continuously over time. Combining deep technical audits, semantic keyword mapping, site architecture, and high-authority evergreen content.',
-        ctaHeading: 'Ready to capture high-intent search demand on Google?',
-        servicesOffered: [
-          {
-            num: '01',
-            title: 'Technical SEO Audits & Core Web Vitals',
-            desc: 'Diagnosing crawl errors, page performance, render-blocking scripts, and indexing bottlenecks.'
-          },
-          {
-            num: '02',
-            title: 'High-Intent Commercial Keyword Clusters',
-            desc: 'Mapping search volume and intent to priority product pages and authority editorial clusters.'
-          },
-          {
-            num: '03',
-            title: 'On-Page Content & Schema Optimization',
-            desc: 'Implementing rich snippets, Schema.org JSON-LD, meta titles, and structured header hierarchies.'
-          },
-          {
-            num: '04',
-            title: 'Internal Linking & Information Architecture',
-            desc: 'Structuring topic clusters and strategic internal links to distribute domain authority effectively.'
-          }
-        ],
-        tools: ['Ahrefs', 'Semrush', 'Google Search Console', 'Screaming Frog', 'Surfer SEO', 'Google Analytics 4'],
-        work: {
-          title: 'Organic Search Compounding Engine',
-          desc: 'Executed a complete technical SEO overhaul and content restructuring that elevated rankings across 18 commercial priority keywords.',
-          deliverables: ['Technical Audit Dossier', 'Target Keyword Matrix', 'Structured Data Schema', 'Content Refresh Checklist'],
-          metricVal: '180K+',
-          metricLabel: 'Monthly Organic Visitors'
-        }
-      },
+      // Live links
+      const liveUrl = data.liveUrl || '#';
+      const liveUrlText = data.liveUrlText || 'Visit Live Project';
+      const prjHeaderLiveLink = document.getElementById('prjHeaderLiveLink');
+      const prjHeaderLiveText = document.getElementById('prjHeaderLiveText');
+      const navLiveProjectBtn = document.getElementById('navLiveProjectBtn');
+      const prjLiveBannerBtn = document.getElementById('prjLiveBannerBtn');
+      const prjLiveBannerBtnText = document.getElementById('prjLiveBannerBtnText');
 
-      'branding': {
-        title: 'Branding & Visual Identity',
-        tagline: 'Distinctive Visual Systems, Typography & Brand Guidelines',
-        icon: '🏷️',
-        eyebrow: '✦ Brand Identity & Systems',
-        desc: 'Crafting memorable visual identities that stand out in crowded markets. Logos, color harmony, typography hierarchies, and complete brand style guidelines that instill customer trust.',
-        ctaHeading: 'Ready to build an enduring, iconic brand identity?',
-        servicesOffered: [
-          {
-            num: '01',
-            title: 'Logo Systems & Visual Marks',
-            desc: 'Primary logotypes, responsive secondary badges, and favicons engineered for legibility across any medium.'
-          },
-          {
-            num: '02',
-            title: 'Color Palettes & Typography Standards',
-            desc: 'Emotionally resonant color pairings with accessible contrast ratios and editorial typographic hierarchies.'
-          },
-          {
-            num: '03',
-            title: 'Brand Guidelines & Asset Stylebooks',
-            desc: 'Comprehensive rulesets documenting logo spacing, misuse examples, imagery treatments, and brand voice.'
-          },
-          {
-            num: '04',
-            title: 'Marketing Collateral & Digital Kits',
-            desc: 'Social media templates, presentation decks, business stationery, and product packaging guidelines.'
-          }
-        ],
-        tools: ['Adobe Illustrator', 'Adobe Photoshop', 'Figma', 'InDesign', 'FontLab', 'Notion'],
-        work: {
-          title: 'Modern Brand Identity & Style System',
-          desc: 'Developed a contemporary, minimalist identity system for a creative technology venture, unifying digital and physical presence.',
-          deliverables: ['Complete Logo Suite', '60-Page Brand Guidelines', 'Social Media Asset Templates', 'Investor Pitch Deck'],
-          metricVal: '85%',
-          metricLabel: 'Brand Recognition Lift'
-        }
-      },
-
-      'web-design': {
-        title: 'Web Design & Frontend Craft',
-        tagline: 'Responsive Architecture, Micro-Interactions & Performance',
-        icon: '💻',
-        eyebrow: '✦ Web & Interaction Craft',
-        desc: 'Modern web experiences that combine editorial beauty with high performance, smooth interactions, and rock-solid responsiveness across mobile, tablet, and desktop devices.',
-        ctaHeading: 'Ready to design a responsive, high-converting website?',
-        servicesOffered: [
-          {
-            num: '01',
-            title: 'Responsive Layouts & Spatial Design',
-            desc: 'Harmonious grid systems, proportion scales, and layout structures that feel natural on any device width.'
-          },
-          {
-            num: '02',
-            title: 'Interactive Motion & Micro-Interactions',
-            desc: 'Purposeful scroll reveals, cursor dynamics, and button hover states that elevate perceived product quality.'
-          },
-          {
-            num: '03',
-            title: 'Accessibility & Performance Standards',
-            desc: 'Semantic HTML markup, screen-reader compatibility (WCAG 2.1 AA), and sub-second page load benchmarks.'
-          },
-          {
-            num: '04',
-            title: 'Production-Ready Engineering Handshake',
-            desc: 'Precise CSS custom property tokens, asset exports, and developer-friendly documentation.'
-          }
-        ],
-        tools: ['Figma', 'HTML5 & Modern CSS', 'Three.js / WebGL', 'Webflow', 'Tailwind CSS', 'VS Code'],
-        work: {
-          title: 'Flagship Interactive Product Launch Site',
-          desc: 'Designed and built a high-converting web experience with silky 60fps animations, 3D spatial accents, and an intuitive checkout flow.',
-          deliverables: ['Custom Web Architecture', 'Interaction Motion Specs', 'Responsive Breakpoint System', '98+ Lighthouse Audit'],
-          metricVal: '99+',
-          metricLabel: 'Lighthouse Performance Score'
-        }
-      },
-
-      'ai-tools': {
-        title: 'AI Tools & Creative Workflows',
-        tagline: 'Generative AI Workflows, Prompt Frameworks & Acceleration',
-        icon: '🤖',
-        eyebrow: '✦ AI-Powered Creativity',
-        desc: 'Supercharging creative production and marketing execution with modern generative AI. Systematic prompt engineering, synthetic visual workflows, automated market research, and pipeline acceleration.',
-        ctaHeading: 'Ready to harness cutting-edge AI for your brand?',
-        servicesOffered: [
-          {
-            num: '01',
-            title: 'Generative Visual & Asset Synthesis',
-            desc: 'Producing bespoke studio photography concepts, 3D renders, and campaign moodboards using advanced AI models.'
-          },
-          {
-            num: '02',
-            title: 'Prompt Engineering Frameworks',
-            desc: 'Codifying reusable, deterministic prompt structures for copy variation, audience simulation, and ideation.'
-          },
-          {
-            num: '03',
-            title: 'Automated Research & Synthesis',
-            desc: 'Rapidly parsing competitor libraries, customer reviews, and market trends into distilled strategic briefs.'
-          },
-          {
-            num: '04',
-            title: 'Creative Pipeline Acceleration',
-            desc: 'Integrating AI tools into existing design and copy workflows to reduce turnaround times without losing craft.'
-          }
-        ],
-        tools: ['Midjourney v6', 'Claude 3.5 Sonnet', 'Google Gemini', 'ChatGPT Plus', 'Stable Diffusion', 'Figma AI'],
-        work: {
-          title: 'AI-Accelerated Campaign Asset Studio',
-          desc: 'Built an end-to-end generative pipeline generating 100+ creative ad concepts and visual variations in hours rather than weeks.',
-          deliverables: ['Custom Prompt Architecture', 'Visual Moodboard Suite', 'Asset Generation Protocol', 'Quality Assurance Matrix'],
-          metricVal: '10x',
-          metricLabel: 'Faster Creative Turnaround'
-        }
-      },
-
-      'creative-strategy': {
-        title: 'Creative Strategy',
-        tagline: 'Campaign Concepts, White-Space Discovery & Big Ideas',
-        icon: '💡',
-        eyebrow: '✦ Creative Direction & Ideation',
-        desc: 'Bridging business metrics with boundary-pushing creative execution. We uncover market white-space, develop breakthrough campaign concepts, and architect messaging that captures cultural attention.',
-        ctaHeading: 'Ready to build a breakthrough creative campaign?',
-        servicesOffered: [
-          {
-            num: '01',
-            title: 'Big-Idea Campaign Concepting',
-            desc: 'Developing central narrative themes and creative umbrellas that seamlessly span video, digital, and social.'
-          },
-          {
-            num: '02',
-            title: 'Competitive Positioning & White Space',
-            desc: 'Analyzing category clichés to uncover uncontested visual and conceptual angles that stand out.'
-          },
-          {
-            num: '03',
-            title: 'Creative Briefing & Art Direction',
-            desc: 'Guiding designers, copywriters, and video editors with clear emotional targets, moodboards, and guidelines.'
-          },
-          {
-            num: '04',
-            title: 'Cross-Channel Storytelling Arcs',
-            desc: 'Structuring episodic narrative releases that sustain audience curiosity over multiple campaign phases.'
-          }
-        ],
-        tools: ['Miro', 'FigJam', 'Notion', 'Keynote', 'Figma', 'Milanote'],
-        work: {
-          title: 'Breakthrough Cross-Platform Brand Relaunch',
-          desc: 'Conceptualized and art-directed a disruptive multichannel creative campaign that earned viral social buzz and significant press coverage.',
-          deliverables: ['Master Creative Brief', 'Art Direction Deck', 'Campaign Storyboard Matrix', 'Channel Activation Plan'],
-          metricVal: '2.4M',
-          metricLabel: 'Earned Organic Impressions'
-        }
-      },
-
-      'analytics-cro': {
-        title: 'Analytics & CRO',
-        tagline: 'Friction Audits, Behavioral Heatmaps & A/B Experimentation',
-        icon: '📊',
-        eyebrow: '✦ Conversion Optimization',
-        desc: 'Turning raw behavioral telemetry into actionable conversion improvements. Quantitative funnel analytics, user session heatmaps, and systematic split-testing that drive compounding ROI.',
-        ctaHeading: 'Ready to turn more website visitors into paying customers?',
-        servicesOffered: [
-          {
-            num: '01',
-            title: 'Conversion Funnel & Friction Audits',
-            desc: 'Identifying drop-off bottlenecks, ambiguous form fields, and checkout hesitation points across user paths.'
-          },
-          {
-            num: '02',
-            title: 'Behavioral Heatmap & Session Tracking',
-            desc: 'Analyzing scroll depth, rage clicks, and attention hotspots using Hotjar and PostHog to unearth user confusion.'
-          },
-          {
-            num: '03',
-            title: 'Scientific A/B & Multivariate Testing',
-            desc: 'Formulating statistically sound test hypotheses, sample size calculations, and high-impact UI variants.'
-          },
-          {
-            num: '04',
-            title: 'Executive Metric & Attribution Dashboards',
-            desc: 'Building streamlined executive views showing conversion rates, revenue per visitor, and test outcomes.'
-          }
-        ],
-        tools: ['Google Analytics 4', 'Hotjar', 'Mixpanel', 'VWO', 'Google Tag Manager', 'Looker Studio'],
-        work: {
-          title: 'Onboarding & Checkout Optimization Sprint',
-          desc: 'Conducted rigorous user session audits and ran a 3-stage A/B testing cycle that eliminated friction in the payment funnel.',
-          deliverables: ['Friction Diagnostic Report', 'A/B Test Design Specs', 'Custom Tagging Configuration', 'Post-Experiment Analysis'],
-          metricVal: '+24.6%',
-          metricLabel: 'Checkout Completion Lift'
-        }
+      if (prjHeaderLiveLink) prjHeaderLiveLink.href = liveUrl;
+      if (prjHeaderLiveText) prjHeaderLiveText.textContent = liveUrlText;
+      if (navLiveProjectBtn) {
+        navLiveProjectBtn.href = liveUrl;
+        navLiveProjectBtn.style.display = liveUrl && liveUrl !== '#' ? 'inline-flex' : 'none';
       }
-    };
+      if (prjLiveBannerBtn) prjLiveBannerBtn.href = liveUrl;
+      if (prjLiveBannerBtnText) prjLiveBannerBtnText.textContent = liveUrlText + ' ↗';
+
+      // Section 1: Overview
+      document.getElementById('prjOverview').textContent = data.overview;
+
+      // Section 2: Objectives & Challenges
+      document.getElementById('prjObjective').textContent = data.objective;
+      document.getElementById('prjChallenges').textContent = data.challenges;
+
+      // Section 3: Strategy & Execution
+      document.getElementById('prjStrategy').textContent = data.strategy;
+      const pillarsContainer = document.getElementById('prjStrategyPillars');
+      pillarsContainer.innerHTML = '';
+      if (data.strategyPillars && data.strategyPillars.length > 0) {
+        data.strategyPillars.forEach((p, idx) => {
+          const card = document.createElement('div');
+          card.className = 'project-strategy-card';
+          card.innerHTML = '<div class="strategy-step-num">STRATEGIC PILLAR 0' + (idx + 1) + '</div>' +
+            '<div class="strategy-step-title">' + p.title + '</div>' +
+            '<div class="strategy-step-desc">' + p.desc + '</div>';
+          pillarsContainer.appendChild(card);
+        });
+      }
+
+      // Section 4: Services / Work Done
+      const workDoneContainer = document.getElementById('prjWorkDone');
+      workDoneContainer.innerHTML = '';
+      if (data.workDone && data.workDone.length > 0) {
+        data.workDone.forEach(w => {
+          const card = document.createElement('div');
+          card.className = 'project-work-item';
+          card.innerHTML = '<h4>' + w.title + '</h4><p>' + w.desc + '</p>';
+          workDoneContainer.appendChild(card);
+        });
+      }
+
+      // Section 5: Tools Used
+      const toolsContainer = document.getElementById('prjTools');
+      toolsContainer.innerHTML = '';
+      if (data.tools && data.tools.length > 0) {
+        data.tools.forEach(t => {
+          const pill = document.createElement('div');
+          pill.className = 'project-tool-pill';
+          pill.innerHTML = '<span>✦</span> <span>' + t + '</span>';
+          toolsContainer.appendChild(pill);
+        });
+      }
+
+      // Section 6: Screenshots
+      const screenshotsContainer = document.getElementById('prjScreenshots');
+      screenshotsContainer.innerHTML = '';
+      if (data.screenshots && data.screenshots.length > 0) {
+        data.screenshots.forEach(s => {
+          const card = document.createElement('div');
+          card.className = 'screenshot-card';
+
+          let visualContent = '';
+          if (s.image) {
+            visualContent = '<img src="' + s.image + '" alt="' + s.title + '" class="screenshot-img" loading="lazy" />';
+          } else {
+            visualContent = '<div class="screenshot-mockup-inner">' +
+              '<div class="mockup-window-top">' +
+                '<div class="mockup-dots"><span></span><span></span><span></span></div>' +
+                '<div class="mockup-address-bar">https://krishkumar.design/work/' + (s.badge || 'preview').toLowerCase() + '</div>' +
+              '</div>' +
+              '<div class="mockup-screen-body">' +
+                '<div class="mockup-bar w-70"></div>' +
+                '<div class="mockup-bar w-90"></div>' +
+                '<div class="mockup-metric-preview">' +
+                  '<div class="mockup-metric-chip">✦ Verified Case Study</div>' +
+                  '<div class="mockup-metric-chip">Live Analytics</div>' +
+                '</div>' +
+                '<div class="mockup-bar w-40"></div>' +
+              '</div>' +
+            '</div>';
+          }
+
+          card.innerHTML = '<div class="screenshot-visual-frame">' + visualContent + '</div>' +
+            '<div class="screenshot-body-info">' +
+              '<span class="screenshot-badge">' + (s.badge || 'Case Study Asset') + '</span>' +
+              '<div class="screenshot-title">' + s.title + '</div>' +
+              '<div class="screenshot-caption">' + s.caption + '</div>' +
+            '</div>';
+          screenshotsContainer.appendChild(card);
+        });
+      }
+
+      // Section 7: Results
+      const resultsContainer = document.getElementById('prjResults');
+      resultsContainer.innerHTML = '';
+      if (data.results && data.results.length > 0) {
+        data.results.forEach(r => {
+          const card = document.createElement('div');
+          card.className = 'result-metric-card';
+          card.innerHTML = '<div class="result-metric-number">' + r.metric + '</div>' +
+            '<div class="result-metric-label">' + r.label + '</div>' +
+            '<div class="result-metric-desc">' + r.desc + '</div>';
+          resultsContainer.appendChild(card);
+        });
+      }
+
+      // Section 8: CTA Heading & Subtext
+      if (data.ctaHeading) {
+        document.getElementById('prjCtaHeading').textContent = data.ctaHeading;
+      }
+      if (data.ctaSubtext) {
+        document.getElementById('prjCtaSubtext').textContent = data.ctaSubtext;
+      }
+
+      // Activate View
+      document.body.classList.add('project-view-open');
+      projectDetailView.setAttribute('aria-hidden', 'false');
+      projectDetailView.classList.add('active');
+      projectDetailView.scrollTop = 0;
+
+      // Re-bind magnetic hover buttons
+      if (typeof initMagneticButtons === 'function') {
+        initMagneticButtons();
+      }
+
+      // Push history state so browser back button returns to portfolio
+      if (window.location.hash !== '#project-' + projectId) {
+        window.history.pushState({ project: projectId }, '', '#project-' + projectId);
+      }
+    }
+
+    function closeProjectView() {
+      if (!projectDetailView) return;
+      projectDetailView.classList.remove('active');
+      projectDetailView.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('project-view-open');
+      currentOpenProjectId = null;
+
+      if (window.location.hash && window.location.hash.startsWith('#project-')) {
+        window.history.pushState(null, '', window.location.pathname + '#work');
+      }
+
+      window.scrollTo({ top: previousProjectScrollPosition, behavior: 'instant' });
+    }
+
+    function closeProjectViewAndScrollContact() {
+      closeProjectView();
+      setTimeout(() => {
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+          contactSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+
+    function navigateProject(direction) {
+      const projectKeys = Object.keys(projectsDatabase);
+      if (!currentOpenProjectId || projectKeys.length <= 1) return;
+      const currentIndex = projectKeys.indexOf(currentOpenProjectId);
+      let newIndex;
+      if (direction === 'next') {
+        newIndex = (currentIndex + 1) % projectKeys.length;
+      } else {
+        newIndex = (currentIndex - 1 + projectKeys.length) % projectKeys.length;
+      }
+      openProjectView(projectKeys[newIndex]);
+    }
+
+    // Expose functions globally on window
+    window.openProjectView = openProjectView;
+    window.closeProjectView = closeProjectView;
+    window.closeProjectViewAndScrollContact = closeProjectViewAndScrollContact;
+    window.navigateProject = navigateProject;
+
+
+    const servicesDatabase = ${JSON.stringify(servicesData, null, 2)};
 
     const serviceDetailView = document.getElementById('serviceDetailView');
     let previousScrollPosition = 0;
@@ -3418,6 +3908,10 @@ const htmlContent = `<!DOCTYPE html>
       window.scrollTo({ top: previousScrollPosition, behavior: 'instant' });
     }
 
+    window.openServiceView = openServiceView;
+    window.closeServiceView = closeServiceView;
+    window.closeServiceViewAndScrollContact = closeServiceViewAndScrollContact;
+
     function closeServiceViewAndScrollContact() {
       closeServiceView();
       setTimeout(() => {
@@ -3428,33 +3922,49 @@ const htmlContent = `<!DOCTYPE html>
       }, 100);
     }
 
-    // Handle browser popstate / back button
+    // Handle browser popstate / back button for both projects & services
     window.addEventListener('popstate', (e) => {
-      if (e.state && e.state.service && servicesDatabase[e.state.service]) {
+      if (e.state && e.state.project && projectsDatabase[e.state.project]) {
+        openProjectView(e.state.project);
+      } else if (e.state && e.state.service && servicesDatabase[e.state.service]) {
         openServiceView(e.state.service);
       } else {
+        if (projectDetailView && projectDetailView.classList.contains('active')) {
+          closeProjectView();
+        }
         if (serviceDetailView && serviceDetailView.classList.contains('active')) {
           closeServiceView();
         }
       }
     });
 
-    // Check if URL has hash on initial load
+    // Check if URL has hash on initial load (supports #project-... and service hashes)
     window.addEventListener('DOMContentLoaded', () => {
       const hash = window.location.hash.replace('#', '');
-      if (hash && servicesDatabase[hash]) {
+      if (hash.startsWith('project-')) {
+        const prjId = hash.replace('project-', '');
+        if (projectsDatabase[prjId]) openProjectView(prjId);
+      } else if (projectsDatabase[hash]) {
+        openProjectView(hash);
+      } else if (servicesDatabase[hash]) {
         openServiceView(hash);
       }
     });
 
-    // Allow escape key to close service view
+    // Allow escape key to close project view or service view
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
+        if (projectDetailView && projectDetailView.classList.contains('active')) {
+          closeProjectView();
+        }
         if (serviceDetailView && serviceDetailView.classList.contains('active')) {
           closeServiceView();
         }
       }
     });
+
+    window.openModal = openModal;
+    window.closeModal = closeModal;
 
     function closeModal() {
       if (!detailModal) return;

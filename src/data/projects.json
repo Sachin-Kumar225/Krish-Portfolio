@@ -1,0 +1,703 @@
+{
+  "digital-marketing-campaign": {
+    "number": "01",
+    "title": "Digital Marketing Campaign",
+    "tagline": "Full-Funnel Paid Acquisition & Scaled Conversion Telemetry",
+    "category": "Growth & Acquisition",
+    "role": "Lead Growth Strategist & Campaign Architect",
+    "client": "Aura FinTech Global",
+    "timeline": "Q3-Q4 2025 · 4 Months",
+    "timelineBadge": "2025 · 4 Months",
+    "liveUrl": "https://example.com/aurafintech-campaign",
+    "liveUrlText": "View Campaign Portal",
+    "overview": "Engineered a high-performing full-funnel digital marketing engine designed to scale paid subscriber acquisition while maintaining positive unit economics. Synchronized Meta Ads dynamic creative testing with high-intent Google Search capture to build a repeatable lead generation flywheel.",
+    "objective": "Achieve a minimum 3.0x return on ad spend (ROAS), decrease customer acquisition cost (CAC) by 30%, and scale qualified monthly subscriber leads past 15,000 without hitting creative fatigue.",
+    "challenges": "Elevated ad costs in a crowded financial niche, tightening privacy restrictions (iOS 14+ event loss), and high drop-off on legacy onboarding screens.",
+    "strategy": "Deployed a 3-tier audience architecture: Cold Interest/Lookalike testing at Top of Funnel, Problem-Aware educational video carousels at Middle of Funnel, and dynamic retargeting paired with high-converting single-offer landing pages at Bottom of Funnel. Integrated server-side Conversions API (CAPI) for lossless event attribution.",
+    "strategyPillars": [
+      {
+        "title": "Audience Segmentation",
+        "desc": "Segmented cold prospects by financial readiness and problem urgency to tailor creative hooks."
+      },
+      {
+        "title": "Dynamic Creative Testing",
+        "desc": "Automated 12-variant copy and motion asset matrices weekly to identify breakout ad angles."
+      },
+      {
+        "title": "Conversion Rate Optimization",
+        "desc": "Refined mobile checkout UX with one-tap verification and immediate proof indicators."
+      }
+    ],
+    "workDone": [
+      {
+        "title": "Meta & Google Ads Campaign Architecture",
+        "desc": "Structured multi-stage prospecting and retargeting ad sets with continuous automated budget optimization (Advantage+ & Performance Max)."
+      },
+      {
+        "title": "Conversion Landing Page Systems",
+        "desc": "Designed and tested 6 tailored landing page variants featuring friction-free form steps and social proof hooks."
+      },
+      {
+        "title": "Creative Ad Production & Copywriting",
+        "desc": "Produced 45+ video scripts, animated motion carousels, and high-CTR static visual cards."
+      },
+      {
+        "title": "Server-Side Tracking & CAPI",
+        "desc": "Configured offline conversion tracking, Google Tag Manager Server Container, and GA4 custom funnel telemetry."
+      }
+    ],
+    "tools": [
+      "Meta Ads Manager",
+      "Google Ads",
+      "Google Analytics 4",
+      "Looker Studio",
+      "Figma",
+      "Zapier",
+      "Google Tag Manager"
+    ],
+    "screenshots": [
+      {
+        "title": "Omnichannel Acquisition Dashboard",
+        "caption": "Consolidated performance telemetry tracking daily ROAS, CAC, and conversion volume across Meta & Search.",
+        "badge": "Analytics",
+        "image": ""
+      },
+      {
+        "title": "High-Converting Mobile Funnel",
+        "caption": "Frictionless multi-step onboarding screen designed to maximize form completions on mobile browsers.",
+        "badge": "Mobile UX",
+        "image": ""
+      },
+      {
+        "title": "Dynamic Video & Static Ad Variations",
+        "caption": "Modular creative grid tested across Facebook & Instagram Feeds, Stories, and Reels.",
+        "badge": "Creative Production",
+        "image": ""
+      }
+    ],
+    "results": [
+      {
+        "metric": "3.4x",
+        "label": "Average ROAS",
+        "desc": "Exceeded initial target of 3.0x across a 4-month scale period."
+      },
+      {
+        "metric": "18,400+",
+        "label": "Qualified Leads",
+        "desc": "Generated high-intent subscriber signups with 94% lead verification rate."
+      },
+      {
+        "metric": "-42%",
+        "label": "Reduction in CAC",
+        "desc": "Lowered per-subscriber acquisition cost through creative iteration and funnel CRO."
+      },
+      {
+        "metric": "2.1M",
+        "label": "Targeted Impressions",
+        "desc": "Reached verified target demographic with sub-1% audience saturation."
+      }
+    ],
+    "ctaHeading": "Want to scale your acquisition funnels?",
+    "ctaSubtext": "Review the live campaign portal or connect directly to build a custom growth engine for your brand."
+  },
+  "social-media-strategy": {
+    "number": "02",
+    "title": "Social Media Strategy",
+    "tagline": "Community Storytelling, Viral Formats & Organic Brand Authority",
+    "category": "Organic Growth & Content",
+    "role": "Social Strategist & Creative Content Lead",
+    "client": "Nova Wellness & Lifestyle",
+    "timeline": "6 Months · 2025",
+    "timelineBadge": "2025 · 6 Months",
+    "liveUrl": "https://instagram.com/krishkumar.design",
+    "liveUrlText": "View Social Feed & Content",
+    "overview": "Developed an organic content engine and cross-platform editorial calendar centered on relatable lifestyle narratives, snackable educational reels, and community interaction.",
+    "objective": "Elevate brand awareness, grow engaged follower count from 12k to 50k+, and generate consistent inbound customer interest without relying purely on paid ads.",
+    "challenges": "Algorithmic shifts prioritizing short-form video over static graphics, inconsistent initial brand tone, and low audience retention past 3 seconds.",
+    "strategy": "Introduced a 3-pillar content formula: 40% Actionable Advice / Hacks, 40% Aesthetic Community Showcase, and 20% Founder Behind-the-Scenes. Implemented sharp 3-second visual hooks, audio-trend mapping, and pinned high-value carousel guides.",
+    "strategyPillars": [
+      {
+        "title": "Visual Pattern Interrupts",
+        "desc": "Created recognizable high-contrast title cards and typographic treatments to freeze thumb scrolling."
+      },
+      {
+        "title": "Community-First DM Funnels",
+        "desc": "Automated resource fulfillment via keyword comment triggers to capture emails instantly."
+      },
+      {
+        "title": "Trend Velocity Timing",
+        "desc": "Monitored breakout audio tracks and viral formats to publish within 24 hours of inflection."
+      }
+    ],
+    "workDone": [
+      {
+        "title": "Cross-Platform Editorial Calendar",
+        "desc": "Built monthly content themes with daily scheduled deliverables across Instagram, TikTok, and LinkedIn."
+      },
+      {
+        "title": "Short-Form Video Production",
+        "desc": "Scripted, edited, and captioned 60+ vertical videos with custom typography and motion pacing."
+      },
+      {
+        "title": "Community Management & DM Automation",
+        "desc": "Set up ManyChat keyword triggers to instantly deliver free resources and product links upon comment request."
+      },
+      {
+        "title": "Influencer Co-Creation Program",
+        "desc": "Partnered with 20 micro-creators for authentic product placements and collaborative reel posts."
+      }
+    ],
+    "tools": [
+      "Instagram Insights",
+      "TikTok Studio",
+      "CapCut Pro",
+      "Notion",
+      "Figma",
+      "ManyChat",
+      "Canva Pro"
+    ],
+    "screenshots": [
+      {
+        "title": "Curated 9-Grid Aesthetic Feed",
+        "caption": "Harmonized visual style with alternate lifestyle imagery and bold typographic carousels.",
+        "badge": "Grid System",
+        "image": ""
+      },
+      {
+        "title": "High-Retention Video Hook Format",
+        "caption": "Storyboarding and frame pacing engineered for 68%+ watch-through completion rates.",
+        "badge": "Video Content",
+        "image": ""
+      },
+      {
+        "title": "Automated DM Inbound Flow",
+        "caption": "Seamless engagement funnel transitioning social commentary into newsletter subscribers.",
+        "badge": "Lead Capture",
+        "image": ""
+      }
+    ],
+    "results": [
+      {
+        "metric": "+180%",
+        "label": "Engagement Lift",
+        "desc": "Triple average comments, saves, and shares compared to previous brand benchmark."
+      },
+      {
+        "metric": "58,200",
+        "label": "Follower Growth",
+        "desc": "Grew organic following by 380% with verified real-user demographic distribution."
+      },
+      {
+        "metric": "4.2M+",
+        "label": "Organic Impressions",
+        "desc": "Accumulated viral video reach without paid media boosting."
+      },
+      {
+        "metric": "24%",
+        "label": "Bio Link CTR",
+        "desc": "Turned social profile views into qualified visits to the brand store."
+      }
+    ],
+    "ctaHeading": "Ready to build an authentic social community?",
+    "ctaSubtext": "Browse the live social grid or get in touch to craft a viral content blueprint for your audience."
+  },
+  "performance-marketing": {
+    "number": "03",
+    "title": "Performance Marketing & Growth",
+    "tagline": "High-Precision Paid Search, Display Retargeting & Unit Economics",
+    "category": "Paid Media & Analytics",
+    "role": "Performance Marketing Director",
+    "client": "Nexus SaaS Cloud",
+    "timeline": "5 Months · 2025-2026",
+    "timelineBadge": "2025 · 5 Months",
+    "liveUrl": "https://example.com/nexus-growth",
+    "liveUrlText": "View Performance Portal",
+    "overview": "Structured end-to-end performance marketing across Google Ads (Search, Performance Max) and LinkedIn B2B Ads to drive enterprise demo requests and free trial activations.",
+    "objective": "Drive 400+ qualified B2B demos per month while reducing cost per acquisition (CPA) below $85, scaling spend efficiently across Tier 1 geographic markets.",
+    "challenges": "Extremely high cost-per-click ($14-$28) on broad cloud software keywords, long B2B enterprise sales cycles, and multi-decision-maker committee buying patterns.",
+    "strategy": "Focused budget on Single Keyword Ad Groups (SKAGs) and high-intent competitor displacement terms. Created matched message-scent landing pages that echoed specific ad headlines directly. Leveraged LinkedIn Matched Audiences targeting verified CTOs and VP Engineers.",
+    "strategyPillars": [
+      {
+        "title": "Competitor Displacement",
+        "desc": "Captured bottom-of-funnel comparison searches with objective feature comparison grids."
+      },
+      {
+        "title": "Message-Scent Matching",
+        "desc": "Synchronized exact ad keywords to customized landing page headlines to maximize Quality Scores."
+      },
+      {
+        "title": "Account-Based Retargeting",
+        "desc": "Retargeted enterprise decision makers with customer video case studies and security whitepapers."
+      }
+    ],
+    "workDone": [
+      {
+        "title": "Google Ads Account Restructuring",
+        "desc": "Reorganized fragmented campaigns into clean high-intent search silos with tight negative keyword lists."
+      },
+      {
+        "title": "B2B LinkedIn Account-Based Advertising",
+        "desc": "Configured ABM targeting for Fortune 1000 accounts with sponsored content and direct message ads."
+      },
+      {
+        "title": "Dynamic Landing Page Personalization",
+        "desc": "Used UTM parameters to dynamically swap company logos and industry use-cases on the destination page."
+      },
+      {
+        "title": "Multi-Touch Attribution Modeling",
+        "desc": "Implemented data-driven attribution in GA4 to properly credit top-of-funnel discovery vs final demo booked."
+      }
+    ],
+    "tools": [
+      "Google Ads",
+      "LinkedIn Campaign Manager",
+      "Google Analytics 4",
+      "Semrush",
+      "Figma",
+      "HubSpot CRM"
+    ],
+    "screenshots": [
+      {
+        "title": "Multi-Tier B2B Campaign Structure",
+        "caption": "Hierarchy mapping awareness, consideration, and demo conversion layers across paid channels.",
+        "badge": "Ad Structure",
+        "image": ""
+      },
+      {
+        "title": "Personalized Landing Page Experience",
+        "caption": "Dynamic headline and testimonial insertion matching search query intent seamlessly.",
+        "badge": "CRO Page",
+        "image": ""
+      },
+      {
+        "title": "Attribution & Pipeline Telemetry",
+        "caption": "Closed-loop revenue dashboard connecting ad clicks to signed enterprise contracts.",
+        "badge": "Pipeline Viz",
+        "image": ""
+      }
+    ],
+    "results": [
+      {
+        "metric": "4.1x",
+        "label": "Pipeline ROI",
+        "desc": "Generated over $1.4M in pipeline value from $340k media investment."
+      },
+      {
+        "metric": "$68",
+        "label": "Average CPA",
+        "desc": "Beat the $85 target cost per demo by 20%, preserving marketing margins."
+      },
+      {
+        "metric": "+64%",
+        "label": "Demo Show-Up Rate",
+        "desc": "Automated SMS/email confirmation sequence improved attendance significantly."
+      },
+      {
+        "metric": "12.8%",
+        "label": "Landing Page CVR",
+        "desc": "High-intent landing pages converted at more than double industry average (5.2%)."
+      }
+    ],
+    "ctaHeading": "Need high-performing B2B paid acquisition?",
+    "ctaSubtext": "Explore the performance strategy framework or schedule a consultation to optimize your advertising economics."
+  },
+  "ui-ux-design": {
+    "number": "04",
+    "title": "UI/UX Design System",
+    "tagline": "Modular Design Tokens, Accessible Flows & Interactive Prototyping",
+    "category": "Product Design",
+    "role": "Lead Product & UI/UX Designer",
+    "client": "Kinetix Mobile Health",
+    "timeline": "3 Months · 2025",
+    "timelineBadge": "2025 · 3 Months",
+    "liveUrl": "https://figma.com/@krishkumar",
+    "liveUrlText": "Inspect Figma Prototype",
+    "overview": "Re-architected the complete user experience and visual design system for a mobile health and biometric tracking app, delivering 80+ validated screens and a comprehensive Figma design token library.",
+    "objective": "Eliminate onboarding drop-off, make complex physiological health metrics easy to interpret at a glance, and achieve WCAG AA contrast accessibility across both Light and Dark modes.",
+    "challenges": "Overwhelming medical data charts, fragmented UI components built across different years, and a steep user learning curve during initial device setup.",
+    "strategy": "Conducted 16 user discovery interviews and card-sorting exercises. Replaced complicated tables with intuitive visual dials and weekly progress rings. Established an atomic design system in Figma with auto-layout 5.0 and automated color token variables.",
+    "strategyPillars": [
+      {
+        "title": "Progressive Disclosure",
+        "desc": "Showed high-level vital summaries upfront with tap-to-expand granular historical charts."
+      },
+      {
+        "title": "Design Token Scalability",
+        "desc": "Standardized typography, radius, spacing, and semantic color scales for seamless handoff."
+      },
+      {
+        "title": "Micro-Interaction Polish",
+        "desc": "Engineered haptic feedback triggers and animated state transitions to reward daily check-ins."
+      }
+    ],
+    "workDone": [
+      {
+        "title": "User Research & Heuristic Audit",
+        "desc": "Identified friction hotspots and mapped end-to-end user journeys for 3 distinct patient personas."
+      },
+      {
+        "title": "Atomic Figma Design System",
+        "desc": "Crafted 250+ responsive components with variant properties, hover/press states, and interactive variables."
+      },
+      {
+        "title": "High-Fidelity Interactive Prototype",
+        "desc": "Constructed clickable micro-interactions and animated screen transitions for usability testing sessions."
+      },
+      {
+        "title": "Design-to-Code Developer Handoff",
+        "desc": "Documented component specs, CSS tokens, spacing increments, and iOS/Android native guidelines."
+      }
+    ],
+    "tools": [
+      "Figma",
+      "FigJam",
+      "ProtoPie",
+      "Maze Usability",
+      "Lottie",
+      "Tailwind CSS"
+    ],
+    "screenshots": [
+      {
+        "title": "Biometric Dashboard Mobile UI",
+        "caption": "Clean circular progress gauges and sparkline graphs visualizing heart rate and sleep cycles.",
+        "badge": "Mobile App",
+        "image": ""
+      },
+      {
+        "title": "Design System Component Tokens",
+        "caption": "Complete modular component hierarchy covering typography, buttons, inputs, and states.",
+        "badge": "Design System",
+        "image": ""
+      },
+      {
+        "title": "Interactive Usability Prototype",
+        "caption": "High-fidelity flow tested with 24 users yielding a 92/100 System Usability Score (SUS).",
+        "badge": "User Testing",
+        "image": ""
+      }
+    ],
+    "results": [
+      {
+        "metric": "-26%",
+        "label": "Churn Reduction",
+        "desc": "Clearer onboarding sequence increased 30-day user retention from 54% to 80%."
+      },
+      {
+        "metric": "92/100",
+        "label": "SUS Score",
+        "desc": "Top-decile usability rating verified through standardized test protocols."
+      },
+      {
+        "metric": "2.4x",
+        "label": "Engineering Speed",
+        "desc": "Modular design tokens cut frontend development handoff time by more than half."
+      },
+      {
+        "metric": "100%",
+        "label": "WCAG AA Compliant",
+        "desc": "Passed all color contrast and screen-reader accessibility benchmarks."
+      }
+    ],
+    "ctaHeading": "Want to redesign your digital product?",
+    "ctaSubtext": "Launch the interactive Figma prototype to inspect component tokens, or reach out for your next product design engagement."
+  },
+  "branding-creative-design": {
+    "number": "05",
+    "title": "Branding & Creative Design",
+    "tagline": "Distinctive Visual Identity, Typographic Systems & Brand Guidelines",
+    "category": "Brand Identity",
+    "role": "Creative Director & Brand Designer",
+    "client": "Sonder Atelier Fragrances",
+    "timeline": "2 Months · 2024",
+    "timelineBadge": "2024 · 2 Months",
+    "liveUrl": "https://example.com/sonder-brand",
+    "liveUrlText": "View Brand Style Guide",
+    "overview": "Created an evocative, minimalist visual brand identity for a luxury fragrance and botanical house. Developed custom wordmark logo geometry, packaging embossing guidelines, and digital brand stylebooks.",
+    "objective": "Establish a high-end luxury market presence, communicate sustainable botanical craftsmanship, and stand out against generic mass-market beauty brands.",
+    "challenges": "Balancing ultra-minimalist modernism with timeless organic warmth, ensuring physical packaging print tolerances matched digital screen reproduction.",
+    "strategy": "Paired custom high-contrast serif typography with tactile, earth-inspired monochrome palettes. Designed a modular packaging grid utilizing blind debossing and eco-conscious cotton paper textures.",
+    "strategyPillars": [
+      {
+        "title": "Typographic Restraint",
+        "desc": "Employed bespoke editorial serif letterforms with generous tracking to convey exclusivity."
+      },
+      {
+        "title": "Tactile Materiality",
+        "desc": "Selected FSC-certified raw cotton papers, blind deboss seals, and monochromatic foil finishes."
+      },
+      {
+        "title": "Digital Brand Uniformity",
+        "desc": "Unified e-commerce storefront, packaging unboxing, and social media templates seamlessly."
+      }
+    ],
+    "workDone": [
+      {
+        "title": "Logo System & Monogram Geometry",
+        "desc": "Designed primary wordmark, secondary submarks, and responsive monograms for varied scales."
+      },
+      {
+        "title": "Typographic & Color System",
+        "desc": "Established hierarchy rules, editorial pairings, and Pantone/CMYK/RGB color recipes."
+      },
+      {
+        "title": "Sustainable Packaging Design",
+        "desc": "Modeled box packaging die-lines, label typography, and custom bottle silhouette specifications."
+      },
+      {
+        "title": "Comprehensive 64-Page Brand Bible",
+        "desc": "Authored definitive brand guidelines covering tone of voice, photography art direction, and digital UI usage."
+      }
+    ],
+    "tools": [
+      "Adobe Illustrator",
+      "Photoshop",
+      "InDesign",
+      "Blender 3D",
+      "Figma"
+    ],
+    "screenshots": [
+      {
+        "title": "Primary Wordmark & Seal Mark",
+        "caption": "Geometric optical adjustments ensuring legibility across small perfume bottles and billboards.",
+        "badge": "Logo Craft",
+        "image": ""
+      },
+      {
+        "title": "Luxury Botanical Packaging Grid",
+        "caption": "Minimalist cotton-card packaging with blind debossed typography and tactile foil accents.",
+        "badge": "Packaging",
+        "image": ""
+      },
+      {
+        "title": "Editorial Brand Guidelines Book",
+        "caption": "Definitive visual manual outlining photography moodboards, color codes, and layout margins.",
+        "badge": "Stylebook",
+        "image": ""
+      }
+    ],
+    "results": [
+      {
+        "metric": "3.8x",
+        "label": "Pre-Order Target",
+        "desc": "Initial launch collection sold out completely in 14 days, exceeding sales projections."
+      },
+      {
+        "metric": "48+",
+        "label": "Press Mentions",
+        "desc": "Featured in leading international design and lifestyle publications."
+      },
+      {
+        "metric": "100%",
+        "label": "Sustainable Sourcing",
+        "desc": "Packaging crafted from FSC-certified recyclable post-consumer cotton board."
+      },
+      {
+        "metric": "+88%",
+        "label": "Perceived Value",
+        "desc": "Brand testing confirmed customer price tolerance was 88% higher than industry baseline."
+      }
+    ],
+    "ctaHeading": "Ready for an unforgettable brand identity?",
+    "ctaSubtext": "Review the brand style guide or connect to develop a timeless visual universe for your company."
+  },
+  "ai-study-assistant": {
+    "number": "06",
+    "title": "AI Study Assistant",
+    "tagline": "Intelligent Learning Roadmaps, Active Recall & Knowledge Distillation",
+    "category": "AI Product & UX",
+    "role": "Lead Product Designer & AI Prompt Architect",
+    "client": "Cognitive Labs EdTech",
+    "timeline": "3 Months · 2025",
+    "timelineBadge": "2025 · 3 Months",
+    "liveUrl": "https://example.com/ai-study-assistant",
+    "liveUrlText": "Launch Interactive App",
+    "overview": "Conceptualized and designed an AI-driven learning companion that ingests academic textbooks and lecture notes, converting dense study material into personalized spaced-repetition schedules and conversational flashcards.",
+    "objective": "Transform passive rote reading into active retention, reduce study anxiety, and give students real-time feedback on conceptual misunderstandings using natural language models.",
+    "challenges": "Preventing AI hallucinations in technical formulas, designing intuitive conversational UI patterns that don't feel like a standard generic chatbot, and keeping latency low.",
+    "strategy": "Built an interface where the AI operates as an ambient tutor alongside document split-views. Users can highlight confusing paragraphs to trigger Instant Socratic Explanations or Generate Exam-Simulated Quizzes.",
+    "strategyPillars": [
+      {
+        "title": "Ambient Intelligence",
+        "desc": "Contextual AI helpers embedded directly in document margins rather than an intrusive side panel."
+      },
+      {
+        "title": "Spaced-Repetition Math",
+        "desc": "SuperMemo SM-2 algorithm integrated with natural language quiz difficulty scoring."
+      },
+      {
+        "title": "Low-Latency Streaming",
+        "desc": "Chroma token streaming animation giving immediate conversational response feedback."
+      }
+    ],
+    "workDone": [
+      {
+        "title": "Cognitive UX Architecture",
+        "desc": "Designed dual-pane split view combining interactive document reader with contextual AI inquiry cards."
+      },
+      {
+        "title": "Prompt Engineering & Few-Shot Templates",
+        "desc": "Structured structured JSON prompts delivering grade-accurate quiz flashcards and spaced-repetition cues."
+      },
+      {
+        "title": "Progress & Mastery Analytics",
+        "desc": "Created visual mastery heatmaps tracking student topic confidence and weak memory retention zones."
+      },
+      {
+        "title": "Voice & Accessibility Controls",
+        "desc": "Integrated conversational speech-to-text input and natural text-to-speech lecture summaries."
+      }
+    ],
+    "tools": [
+      "Figma",
+      "Gemini API",
+      "Next.js",
+      "Tailwind CSS",
+      "TypeScript",
+      "Vercel"
+    ],
+    "screenshots": [
+      {
+        "title": "Split-View Reading & Tutor HUD",
+        "caption": "Side-by-side reading layout with instant AI margin notes and concept breakdown chips.",
+        "badge": "Desktop UI",
+        "image": ""
+      },
+      {
+        "title": "Spaced-Repetition Quiz Interface",
+        "caption": "Gamified active recall flashcards with automated confidence rating algorithms.",
+        "badge": "Quiz Engine",
+        "image": ""
+      },
+      {
+        "title": "Topic Mastery Knowledge Graph",
+        "caption": "Interactive nodal chart depicting learning progression and upcoming review dates.",
+        "badge": "Analytics",
+        "image": ""
+      }
+    ],
+    "results": [
+      {
+        "metric": "74%",
+        "label": "Faster Study Prep",
+        "desc": "Students reported cutting exam preparation time by nearly three-quarters."
+      },
+      {
+        "metric": "35,000+",
+        "label": "Flashcards Created",
+        "desc": "Generated high-accuracy active recall decks during beta testing semester."
+      },
+      {
+        "metric": "4.9/5",
+        "label": "Student Rating",
+        "desc": "Rated higher than traditional textbook study methods by 96% of surveyed cohorts."
+      },
+      {
+        "metric": "<1.2s",
+        "label": "Response Latency",
+        "desc": "Streaming response delivery kept interactions instant and conversational."
+      }
+    ],
+    "ctaHeading": "Looking to innovate with applied AI?",
+    "ctaSubtext": "Test the prototype interface or reach out to collaborate on next-generation intelligent applications."
+  },
+  "digital-marketing-dashboard": {
+    "number": "07",
+    "title": "Digital Marketing Dashboard",
+    "tagline": "Real-Time Multi-Touch Attribution, ROAS Telemetry & Ad Spend Intelligence",
+    "category": "Data Visualization & SaaS",
+    "role": "UI/UX & Data Visualization Designer",
+    "client": "Vanguard Media Analytics",
+    "timeline": "3 Months · 2025",
+    "timelineBadge": "2025 · 3 Months",
+    "liveUrl": "https://example.com/marketing-dashboard-demo",
+    "liveUrlText": "Open Dashboard Demo",
+    "overview": "A high-density marketing analytics dashboard built for growth teams and media buyers. Consolidates advertising spend across Meta, Google, TikTok, and Amazon into unified ROAS telemetry and cohort retention graphs.",
+    "objective": "Replace chaotic multi-tab spreadsheets with a centralized, real-time command center that flags unprofitable ad campaigns within minutes.",
+    "challenges": "Visualizing high-density financial data without cognitive clutter, accommodating differing time zones and currency conversions in real-time.",
+    "strategy": "Employed a modular 12-column widget grid with configurable dashboard presets (Executive Summary, Media Buyer Deep-Dive, Creative Performance). Used high-contrast monochrome tones with purposeful accent indicators for quick scanning.",
+    "strategyPillars": [
+      {
+        "title": "Modular Widget Grid",
+        "desc": "Configurable drag-and-drop tiles allowing growth leads to prioritize metrics that matter most."
+      },
+      {
+        "title": "Real-Time Budget Pacing",
+        "desc": "Live spend alerts calculating projected monthly burn rate against revenue targets."
+      },
+      {
+        "title": "Cross-Network Normalization",
+        "desc": "Standardized terminology and currency across 5 disparate ad platform APIs."
+      }
+    ],
+    "workDone": [
+      {
+        "title": "Data Hierarchy & Dashboard Architecture",
+        "desc": "Categorized 50+ marketing KPIs into high-level summary cards, trend sparklines, and granular attribution tables."
+      },
+      {
+        "title": "Custom Data Viz & Chart Tokens",
+        "desc": "Designed specialized charts for CAC-to-LTV ratios, cohort churn heatmaps, and funnel velocity bars."
+      },
+      {
+        "title": "Filter & Preset Controller",
+        "desc": "Engineered date range comparators, attribution model toggle (First Click vs Data-Driven), and channel filters."
+      },
+      {
+        "title": "Dark Mode & High-Contrast Views",
+        "desc": "Optimized for continuous multi-monitor viewing in command centers and agency war rooms."
+      }
+    ],
+    "tools": [
+      "Figma",
+      "Chart.js",
+      "Tailwind CSS",
+      "React",
+      "TypeScript",
+      "D3.js"
+    ],
+    "screenshots": [
+      {
+        "title": "Executive Command Center View",
+        "caption": "Top-level summary widget showing aggregated spend, blended ROAS, and net revenue lift.",
+        "badge": "Main View",
+        "image": ""
+      },
+      {
+        "title": "Cohort Retention & LTV Heatmap",
+        "caption": "Granular cohort matrices identifying which acquisition channels yield the highest lifetime customer value.",
+        "badge": "Cohort Matrix",
+        "image": ""
+      },
+      {
+        "title": "Creative Performance Scorecard",
+        "caption": "Direct comparison grid scoring video hooks, CTR, and fatigue indexes for active ad creatives.",
+        "badge": "Creative Audit",
+        "image": ""
+      }
+    ],
+    "results": [
+      {
+        "metric": "14 hrs/wk",
+        "label": "Time Saved",
+        "desc": "Growth teams cut manual reporting hours from 16 hours down to under 2 hours per week."
+      },
+      {
+        "metric": "$4.8M",
+        "label": "Tracked Spend",
+        "desc": "Successfully tracked monthly ad budgets across 12 enterprise brand accounts."
+      },
+      {
+        "metric": "<300ms",
+        "label": "Query Speed",
+        "desc": "Optimized data aggregation components for instant filtering without UI lag."
+      },
+      {
+        "metric": "+32%",
+        "label": "Ad Efficiency",
+        "desc": "Early budget reallocation away from fatigued creatives prevented ad spend waste."
+      }
+    ],
+    "ctaHeading": "Need modern analytics & dashboard UX?",
+    "ctaSubtext": "Launch the interactive dashboard demo or discuss data visualization systems for your product."
+  }
+}
