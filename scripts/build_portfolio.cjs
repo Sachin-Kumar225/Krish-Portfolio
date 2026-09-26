@@ -1,9 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 
-const heroB64 = 'data:image/jpeg;base64,' + fs.readFileSync(path.join(__dirname, '../src/assets/images/krish_hero_opt.jpg')).toString('base64');
+// User uploaded personal photo
+const heroImagePath = path.join(__dirname, '../src/assets/images/krish_user_hero_1790424734267.jpg');
+const heroB64 = 'data:image/jpeg;base64,' + fs.readFileSync(heroImagePath).toString('base64');
 const aboutB64 = 'data:image/jpeg;base64,' + fs.readFileSync(path.join(__dirname, '../src/assets/images/krish_about_opt.jpg')).toString('base64');
-const brandB64 = 'data:image/jpeg;base64,' + fs.readFileSync(path.join(__dirname, '../src/assets/images/krish_brand_opt.jpg')).toString('base64');
+const brandB64 = 'data:image/jpeg;base64,' + fs.readFileSync(heroImagePath).toString('base64');
 
 const projectsData = require('../src/data/projects.json');
 const servicesData = require('../src/data/services.json');
