@@ -8,7 +8,13 @@
     "category": "Growth & Acquisition",
     "coverBadge": "Paid Media Strategy",
     "coverGradient": "linear-gradient(135deg, #111116 0%, #2A2A38 100%)",
-    "tags": ["MetaAds", "ROAS", "PerformanceMarketing", "CreativeStrategy", "Analytics"],
+    "tags": [
+      "MetaAds",
+      "ROAS",
+      "PerformanceMarketing",
+      "CreativeStrategy",
+      "Analytics"
+    ],
     "shortDescription": "A comprehensive breakdown of how modern algorithms evaluate ad creative, how to structure rapid variant sprints, and why your post-click landing experience makes or breaks CAC.",
     "author": {
       "name": "Krish Kumar",
@@ -80,9 +86,11 @@
           "Implement server-side Conversions API to supply the algorithm with lossless purchase events."
         ]
       }
-    ]
+    ],
+    "isoDate": "2025-10-18T09:00:00+00:00",
+    "isoModified": "2026-09-26T14:30:00+00:00",
+    "featuredImage": "/krish_hero.jpg"
   },
-
   "designing-scalable-figma-tokens": {
     "slug": "designing-scalable-figma-tokens",
     "title": "From Chaos to Scalability: Architecting Design Tokens in Figma for Engineering Handoff",
@@ -92,7 +100,13 @@
     "category": "UI/UX & Systems",
     "coverBadge": "Product Design",
     "coverGradient": "linear-gradient(135deg, #1C1C24 0%, #353545 100%)",
-    "tags": ["Figma", "DesignTokens", "DesignSystems", "UIUX", "FrontEnd"],
+    "tags": [
+      "Figma",
+      "DesignTokens",
+      "DesignSystems",
+      "UIUX",
+      "FrontEnd"
+    ],
     "shortDescription": "Step-by-step methodology for setting up variable collections in Figma, enforcing contrast accessibility standards, and generating clean CSS token contracts.",
     "author": {
       "name": "Krish Kumar",
@@ -144,9 +158,11 @@
         "type": "paragraph",
         "text": "Using Figma's Variables API and token export pipelines, tokens export directly into CSS custom properties and Tailwind theme extensions. When a brand color or elevation level shifts, a single variable update synchronizes both the design workspace and the production codebase instantaneously."
       }
-    ]
+    ],
+    "isoDate": "2025-09-29T10:00:00+00:00",
+    "isoModified": "2026-09-26T14:30:00+00:00",
+    "featuredImage": "/krish_hero.jpg"
   },
-
   "ai-workflows-for-modern-marketers": {
     "slug": "ai-workflows-for-modern-marketers",
     "title": "Practical AI Workflows: How I Use Generative Models to Supercharge Creative Strategy",
@@ -156,7 +172,13 @@
     "category": "AI Tools & Strategy",
     "coverBadge": "AI & Automation",
     "coverGradient": "linear-gradient(135deg, #15151A 0%, #2E2E3A 100%)",
-    "tags": ["AITools", "CreativeStrategy", "LLMWorkflows", "Automation", "Marketing"],
+    "tags": [
+      "AITools",
+      "CreativeStrategy",
+      "LLMWorkflows",
+      "Automation",
+      "Marketing"
+    ],
     "shortDescription": "The exact workflow stack I use to distill hundreds of customer reviews into high-converting hooks, generate variant angles in minutes, and maintain human craft.",
     "author": {
       "name": "Krish Kumar",
@@ -196,9 +218,11 @@
         "title": "Human-in-the-Loop Principle",
         "text": "AI delivers volume, breadth, and speed; human editors inject empathy, cultural nuance, timing, and brand taste. Always curate before deploying."
       }
-    ]
+    ],
+    "isoDate": "2025-08-14T08:30:00+00:00",
+    "isoModified": "2026-09-26T14:30:00+00:00",
+    "featuredImage": "/krish_hero.jpg"
   },
-
   "cro-principles-frictionless-mobile-funnels": {
     "slug": "cro-principles-frictionless-mobile-funnels",
     "title": "The Anatomy of a High-Converting Mobile Checkout: 5 Friction Killers",
@@ -208,7 +232,13 @@
     "category": "Conversion Optimization",
     "coverBadge": "CRO & Analytics",
     "coverGradient": "linear-gradient(135deg, #181820 0%, #303042 100%)",
-    "tags": ["CRO", "MobileUX", "Analytics", "Ecommerce", "UserResearch"],
+    "tags": [
+      "CRO",
+      "MobileUX",
+      "Analytics",
+      "Ecommerce",
+      "UserResearch"
+    ],
     "shortDescription": "Examining the micro-interactions, progressive disclosure patterns, and trust signals that turn reluctant mobile browsers into confident buyers.",
     "author": {
       "name": "Krish Kumar",
@@ -243,9 +273,11 @@
         "title": "Conversion Benchmark",
         "text": "Enabling native Apple Pay and Google Pay one-tap express checkouts consistently lifts mobile conversion rate by 18-24% within 14 days."
       }
-    ]
+    ],
+    "isoDate": "2025-07-22T11:15:00+00:00",
+    "isoModified": "2026-09-26T14:30:00+00:00",
+    "featuredImage": "/krish_hero.jpg"
   },
-
   "building-memorable-brand-identities": {
     "slug": "building-memorable-brand-identities",
     "title": "Beyond the Logo: Building Authentic Brand Identity Systems in a Crowded Market",
@@ -255,7 +287,13 @@
     "category": "Branding & Creative",
     "coverBadge": "Brand Identity",
     "coverGradient": "linear-gradient(135deg, #0F0F14 0%, #282833 100%)",
-    "tags": ["Branding", "Typography", "VisualIdentity", "ArtDirection", "Design"],
+    "tags": [
+      "Branding",
+      "Typography",
+      "VisualIdentity",
+      "ArtDirection",
+      "Design"
+    ],
     "shortDescription": "A deep dive into typography pairing, design guidelines documentation, and creating aesthetic resonance that lasts beyond transient trends.",
     "author": {
       "name": "Krish Kumar",
@@ -290,6 +328,9 @@
         "quote": "Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away.",
         "author": "Antoine de Saint-Exupéry"
       }
-    ]
+    ],
+    "isoDate": "2025-06-05T09:45:00+00:00",
+    "isoModified": "2026-09-26T14:30:00+00:00",
+    "featuredImage": "/krish_hero.jpg"
   }
 }

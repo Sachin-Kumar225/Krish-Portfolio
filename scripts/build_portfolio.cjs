@@ -1,11 +1,21 @@
 const fs = require('fs');
 const path = require('path');
 
-// User uploaded personal photo
-const heroImagePath = path.join(__dirname, '../src/assets/images/krish_user_hero_1790424734267.jpg');
+// User uploaded personal photo (primary: user-profile-image.jpeg)
+const candidateHeroImages = [
+  path.join(__dirname, '../public/user-profile-image.jpeg'),
+  path.join(__dirname, '../src/assets/images/user-profile-image.jpeg'),
+  path.join(__dirname, '../public/krish_hero.jpg')
+];
+
+let heroImagePath = candidateHeroImages.find(p => fs.existsSync(p));
+if (!heroImagePath) {
+  heroImagePath = path.join(__dirname, '../public/krish_hero.jpg');
+}
+
 const heroB64 = 'data:image/jpeg;base64,' + fs.readFileSync(heroImagePath).toString('base64');
-const aboutB64 = 'data:image/jpeg;base64,' + fs.readFileSync(path.join(__dirname, '../src/assets/images/krish_about_opt.jpg')).toString('base64');
-const brandB64 = 'data:image/jpeg;base64,' + fs.readFileSync(heroImagePath).toString('base64');
+const aboutB64 = heroB64;
+const brandB64 = heroB64;
 
 const projectsData = require('../src/data/projects.json');
 const servicesData = require('../src/data/services.json');
@@ -537,6 +547,37 @@ const htmlContent = `<!DOCTYPE html>
       object-fit: cover;
       display: block;
       transition: transform 0.6s var(--ease-out-expo);
+    }
+
+    .photo-upload-badge {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      z-index: 6;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 9999px;
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: #FFFFFF;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      user-select: none;
+    }
+
+    .photo-upload-badge:hover {
+      background: rgba(15, 23, 42, 0.94);
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+      border-color: rgba(255, 255, 255, 0.6);
     }
 
     /* Floating Glassmorphic Label Cards */
@@ -3142,7 +3183,12 @@ const htmlContent = `<!DOCTYPE html>
 
           <!-- Mouse-Tilt Portrait Card -->
           <div class="portrait-card" id="portraitCard">
-            <img src="${heroB64}" alt="Portrait of Krish Kumar — Creative Strategist & UI/UX Designer" width="440" height="586" />
+            <img id="heroPortraitImg" src="${heroB64}" alt="Portrait of Krish Kumar — Creative Strategist & UI/UX Designer" width="440" height="586" />
+            <input type="file" id="heroPhotoUploadInput" accept="image/jpeg,image/png,image/webp" style="display: none;" />
+            <button type="button" class="photo-upload-badge" id="photoUploadTrigger" title="Click to upload or replace with your personal photo (user-profile-image.jpeg)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              <span>Upload Photo</span>
+            </button>
           </div>
 
           <!-- Floating Glassmorphic Pill Cards with Mouse Parallax + Keyframe Floats -->
@@ -3642,7 +3688,7 @@ const htmlContent = `<!DOCTYPE html>
         <!-- Right Side: Circular Cropped Portrait Photo (grayscale 15%) in bordered, shadowed circle frame -->
         <div class="brand-visual-side reveal-item">
           <div class="brand-circle-frame">
-            <img src="${brandB64}" alt="Krish Kumar circular portrait" width="320" height="320" />
+            <img id="brandPortraitImg" src="${brandB64}" alt="Krish Kumar circular portrait" width="320" height="320" />
           </div>
         </div>
       </div>
@@ -4268,6 +4314,60 @@ const htmlContent = `<!DOCTYPE html>
       requestAnimationFrame(updateHeroTilt);
     }
     updateHeroTilt();
+
+    // User Personal Photo Customization & Persistent Storage Sync
+    const heroPortraitImg = document.getElementById('heroPortraitImg');
+    const brandPortraitImg = document.getElementById('brandPortraitImg');
+    const heroPhotoUploadInput = document.getElementById('heroPhotoUploadInput');
+    const photoUploadTrigger = document.getElementById('photoUploadTrigger');
+
+    // Restore user custom photo from localStorage if present
+    try {
+      const savedUserPhoto = localStorage.getItem('krish_custom_hero_image');
+      if (savedUserPhoto) {
+        if (heroPortraitImg) heroPortraitImg.src = savedUserPhoto;
+        if (brandPortraitImg) brandPortraitImg.src = savedUserPhoto;
+      }
+    } catch (e) {
+      console.warn('localStorage access failed:', e);
+    }
+
+    if (photoUploadTrigger && heroPhotoUploadInput) {
+      photoUploadTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        heroPhotoUploadInput.click();
+      });
+
+      heroPhotoUploadInput.addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (uploadEvent) => {
+          const dataUrl = uploadEvent.target.result;
+          if (heroPortraitImg) heroPortraitImg.src = dataUrl;
+          if (brandPortraitImg) brandPortraitImg.src = dataUrl;
+
+          try {
+            localStorage.setItem('krish_custom_hero_image', dataUrl);
+          } catch (storageErr) {
+            console.warn('Could not save to localStorage:', storageErr);
+          }
+
+          // Send to server to write to public/user-profile-image.jpeg and rebuild
+          fetch('/api/upload-hero', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ dataUrl: dataUrl, filename: file.name })
+          }).then(res => res.json()).then(data => {
+            console.log('Upload response:', data);
+          }).catch(err => {
+            console.error('Server upload error:', err);
+          });
+        };
+        reader.readAsDataURL(file);
+      });
+    }
 
     // Skill cards subtle 3D tilt on hover
     const tiltCards = document.querySelectorAll('.tilt-card');
