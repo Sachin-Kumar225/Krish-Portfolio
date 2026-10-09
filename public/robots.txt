@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Allow: /blog
+Allow: /blog/*
 
-Sitemap: /sitemap.xml
+Sitemap: https://ais-dev-73voorynbsph76iezefq2l-597436389474.asia-southeast1.run.app/sitemap.xml

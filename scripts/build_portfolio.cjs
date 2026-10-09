@@ -26,12 +26,22 @@ const htmlContent = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Krish Kumar — Digital Marketer, UI/UX Designer & Creative Strategist</title>
-  <meta name="description" content="Personal portfolio of Krish Kumar — Digital Marketer, UI/UX Designer & Creative Strategist. Building digital experiences, modern visual designs and high-impact campaigns." />
+  <title>Krish Kumar — Digital Marketer, UI/UX Designer &amp; Creative Strategist</title>
+  <meta name="description" content="Personal portfolio of Krish Kumar — Digital Marketer, UI/UX Designer &amp; Creative Strategist. Building digital experiences, modern visual designs and high-impact campaigns." />
+  <link rel="canonical" href="https://ais-dev-73voorynbsph76iezefq2l-597436389474.asia-southeast1.run.app/" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  
   <meta property="og:title" content="Krish Kumar — Portfolio" />
   <meta property="og:description" content="Digital Marketer · UI/UX Designer · Creative Strategist" />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ais-dev-73voorynbsph76iezefq2l-597436389474.asia-southeast1.run.app/" />
+  <meta property="og:image" content="/user-profile-image.jpeg" />
+  <meta property="og:site_name" content="Krish Kumar — Portfolio &amp; Blog" />
+  
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Krish Kumar — Portfolio" />
+  <meta name="twitter:description" content="Digital Marketer · UI/UX Designer · Creative Strategist" />
+  <meta name="twitter:image" content="/user-profile-image.jpeg" />
   <meta name="theme-color" content="#ffffff" />
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -547,37 +557,6 @@ const htmlContent = `<!DOCTYPE html>
       object-fit: cover;
       display: block;
       transition: transform 0.6s var(--ease-out-expo);
-    }
-
-    .photo-upload-badge {
-      position: absolute;
-      bottom: 14px;
-      right: 14px;
-      z-index: 6;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 14px;
-      border-radius: 9999px;
-      background: rgba(15, 23, 42, 0.78);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      color: #FFFFFF;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
-      cursor: pointer;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      user-select: none;
-    }
-
-    .photo-upload-badge:hover {
-      background: rgba(15, 23, 42, 0.94);
-      transform: translateY(-2px) scale(1.04);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-      border-color: rgba(255, 255, 255, 0.6);
     }
 
     /* Floating Glassmorphic Label Cards */
@@ -3079,10 +3058,18 @@ const htmlContent = `<!DOCTYPE html>
       }
     }
 
+    body.admin-mode #public-website {
+      display: none !important;
+    }
+    body.admin-mode {
+      background: #020617;
+      overflow-y: auto;
+    }
+
   </style>
 
   <!-- Schema.org Structured Data -->
-  <script type="application/ld+json">
+  <script id="schemaStructuredData" type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -3105,6 +3092,7 @@ const htmlContent = `<!DOCTYPE html>
   </script>
 </head>
 <body>
+  <div id="public-website">
 
   <!-- Subtle SVG feTurbulence Grain Overlay (opacity ~0.035, mix-blend-mode: multiply, position:fixed) -->
   <svg class="grain-overlay" aria-hidden="true">
@@ -3184,11 +3172,6 @@ const htmlContent = `<!DOCTYPE html>
           <!-- Mouse-Tilt Portrait Card -->
           <div class="portrait-card" id="portraitCard">
             <img id="heroPortraitImg" src="${heroB64}" alt="Portrait of Krish Kumar — Creative Strategist & UI/UX Designer" width="440" height="586" />
-            <input type="file" id="heroPhotoUploadInput" accept="image/jpeg,image/png,image/webp" style="display: none;" />
-            <button type="button" class="photo-upload-badge" id="photoUploadTrigger" title="Click to upload or replace with your personal photo (user-profile-image.jpeg)">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-              <span>Upload Photo</span>
-            </button>
           </div>
 
           <!-- Floating Glassmorphic Pill Cards with Mouse Parallax + Keyframe Floats -->
@@ -4318,8 +4301,6 @@ const htmlContent = `<!DOCTYPE html>
     // User Personal Photo Customization & Persistent Storage Sync
     const heroPortraitImg = document.getElementById('heroPortraitImg');
     const brandPortraitImg = document.getElementById('brandPortraitImg');
-    const heroPhotoUploadInput = document.getElementById('heroPhotoUploadInput');
-    const photoUploadTrigger = document.getElementById('photoUploadTrigger');
 
     // Restore user custom photo from localStorage if present
     try {
@@ -4330,43 +4311,6 @@ const htmlContent = `<!DOCTYPE html>
       }
     } catch (e) {
       console.warn('localStorage access failed:', e);
-    }
-
-    if (photoUploadTrigger && heroPhotoUploadInput) {
-      photoUploadTrigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        heroPhotoUploadInput.click();
-      });
-
-      heroPhotoUploadInput.addEventListener('change', (e) => {
-        const file = e.target.files && e.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = (uploadEvent) => {
-          const dataUrl = uploadEvent.target.result;
-          if (heroPortraitImg) heroPortraitImg.src = dataUrl;
-          if (brandPortraitImg) brandPortraitImg.src = dataUrl;
-
-          try {
-            localStorage.setItem('krish_custom_hero_image', dataUrl);
-          } catch (storageErr) {
-            console.warn('Could not save to localStorage:', storageErr);
-          }
-
-          // Send to server to write to public/user-profile-image.jpeg and rebuild
-          fetch('/api/upload-hero', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ dataUrl: dataUrl, filename: file.name })
-          }).then(res => res.json()).then(data => {
-            console.log('Upload response:', data);
-          }).catch(err => {
-            console.error('Server upload error:', err);
-          });
-        };
-        reader.readAsDataURL(file);
-      });
     }
 
     // Skill cards subtle 3D tilt on hover
@@ -4649,14 +4593,14 @@ const htmlContent = `<!DOCTYPE html>
                   '<span class="post-meta-dot"></span>' +
                   '<span>' + feat.readTime + '</span>' +
                 '</div>' +
-                '<h2 class="featured-post-title">' + feat.title + '</h2>' +
+                '<h2 class="featured-post-title"><a href="/blog/' + featSlug + '" data-slug="' + featSlug + '" onclick="event.preventDefault(); openArticleView(this.dataset.slug);" style="color:inherit; text-decoration:none;">' + feat.title + '</a></h2>' +
                 '<p class="featured-post-desc">' + feat.shortDescription + '</p>' +
                 '<div class="post-tags-list">' +
                   (feat.tags || []).map(function(t) { return '<span class="post-tag-chip">#' + t + '</span>'; }).join('') +
                 '</div>' +
-                '<button type="button" class="read-blog-btn" data-slug="' + featSlug + '" onclick="event.stopPropagation(); openArticleView(this.dataset.slug);">' +
+                '<a href="/blog/' + featSlug + '" class="read-blog-btn" data-slug="' + featSlug + '" onclick="event.preventDefault(); event.stopPropagation(); openArticleView(this.dataset.slug);">' +
                   'Read Blog →' +
-                '</button>' +
+                '</a>' +
               '</div>' +
             '</article>';
         }
@@ -4710,14 +4654,14 @@ const htmlContent = `<!DOCTYPE html>
             '<span class="post-meta-dot"></span>' +
             '<span>' + post.readTime + '</span>' +
           '</div>' +
-          '<h3 class="article-card-title">' + post.title + '</h3>' +
+          '<h3 class="article-card-title"><a href="/blog/' + slug + '" data-slug="' + slug + '" onclick="event.preventDefault(); openArticleView(this.dataset.slug);" style="color:inherit; text-decoration:none;">' + post.title + '</a></h3>' +
           '<p class="article-card-desc">' + post.shortDescription + '</p>' +
           '<div class="post-tags-list" style="margin-bottom: 18px;">' +
             tagsHtml +
           '</div>' +
-          '<button type="button" class="read-blog-btn" data-slug="' + slug + '" onclick="event.stopPropagation(); openArticleView(this.dataset.slug);">' +
+          '<a href="/blog/' + slug + '" class="read-blog-btn" data-slug="' + slug + '" onclick="event.preventDefault(); event.stopPropagation(); openArticleView(this.dataset.slug);">' +
             'Read Blog →' +
-          '</button>' +
+          '</a>' +
         '</div>';
       return card;
     }
@@ -4731,6 +4675,192 @@ const htmlContent = `<!DOCTYPE html>
 
     function searchBlogArticles(val) {
       renderBlogGrid(currentBlogCategory, val);
+    }
+
+    // Dynamic SEO, Page Titles, Meta Descriptions & Schema.org Structured Data
+    function updatePageMetadata(type, slug) {
+      const origin = window.location.origin;
+      let canonicalEl = document.querySelector('link[rel="canonical"]');
+      if (!canonicalEl) {
+        canonicalEl = document.createElement('link');
+        canonicalEl.setAttribute('rel', 'canonical');
+        document.head.appendChild(canonicalEl);
+      }
+      
+      let jsonLdEl = document.getElementById('schemaStructuredData');
+      if (!jsonLdEl) {
+        jsonLdEl = document.createElement('script');
+        jsonLdEl.id = 'schemaStructuredData';
+        jsonLdEl.type = 'application/ld+json';
+        document.head.appendChild(jsonLdEl);
+      }
+
+      function setMeta(selector, attr, value) {
+        let el = document.querySelector(selector);
+        if (!el) {
+          el = document.createElement('meta');
+          const cleanSel = selector.replace('meta[', '').replace(']', '');
+          const parts = cleanSel.split('=');
+          el.setAttribute(parts[0], parts[1].replace(/"/g, ''));
+          document.head.appendChild(el);
+        }
+        el.setAttribute(attr, value);
+      }
+
+      if (type === 'article' && slug && blogDatabase[slug]) {
+        const article = blogDatabase[slug];
+        const pageTitle = article.title + ' — Krish Kumar';
+        const pageDesc = article.shortDescription || article.tagline;
+        const pageUrl = origin + '/blog/' + slug;
+        const pageImg = origin + (article.featuredImage || '/user-profile-image.jpeg');
+
+        document.title = pageTitle;
+        setMeta('meta[name="description"]', 'content', pageDesc);
+        canonicalEl.setAttribute('href', pageUrl);
+
+        setMeta('meta[property="og:type"]', 'content', 'article');
+        setMeta('meta[property="og:title"]', 'content', article.title);
+        setMeta('meta[property="og:description"]', 'content', pageDesc);
+        setMeta('meta[property="og:url"]', 'content', pageUrl);
+        setMeta('meta[property="og:image"]', 'content', pageImg);
+        setMeta('meta[property="og:site_name"]', 'content', 'Krish Kumar — Portfolio & Blog');
+        setMeta('meta[property="article:published_time"]', 'content', article.isoDate || '2025-10-18T09:00:00+00:00');
+        setMeta('meta[property="article:modified_time"]', 'content', article.isoModified || '2026-09-26T14:30:00+00:00');
+        setMeta('meta[property="article:author"]', 'content', (article.author && article.author.name) || 'Krish Kumar');
+        setMeta('meta[property="article:section"]', 'content', article.category);
+
+        setMeta('meta[name="twitter:card"]', 'content', 'summary_large_image');
+        setMeta('meta[name="twitter:title"]', 'content', article.title);
+        setMeta('meta[name="twitter:description"]', 'content', pageDesc);
+        setMeta('meta[name="twitter:image"]', 'content', pageImg);
+
+        // BlogPosting Schema.org Structured Data
+        const schemaData = {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": pageUrl
+          },
+          "headline": article.title,
+          "description": pageDesc,
+          "image": [pageImg],
+          "datePublished": article.isoDate || "2025-10-18T09:00:00+00:00",
+          "dateModified": article.isoModified || "2026-09-26T14:30:00+00:00",
+          "author": {
+            "@type": "Person",
+            "name": (article.author && article.author.name) || "Krish Kumar",
+            "jobTitle": (article.author && article.author.role) || "Digital Marketer & Creative Strategist",
+            "url": origin + "/"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Krish Kumar",
+            "url": origin + "/",
+            "logo": {
+              "@type": "ImageObject",
+              "url": origin + "/user-profile-image.jpeg"
+            }
+          },
+          "articleSection": article.category,
+          "keywords": (article.tags || []).join(", ")
+        };
+        jsonLdEl.textContent = JSON.stringify(schemaData, null, 2);
+
+      } else if (type === 'blog') {
+        const pageTitle = 'Blog & Insights — Krish Kumar';
+        const pageDesc = 'Tactical breakdowns, frameworks, and insights on paid media, Meta ads scaling, design tokens, and generative AI workflows.';
+        const pageUrl = origin + '/blog';
+        const pageImg = origin + '/user-profile-image.jpeg';
+
+        document.title = pageTitle;
+        setMeta('meta[name="description"]', 'content', pageDesc);
+        canonicalEl.setAttribute('href', pageUrl);
+
+        setMeta('meta[property="og:type"]', 'content', 'website');
+        setMeta('meta[property="og:title"]', 'content', pageTitle);
+        setMeta('meta[property="og:description"]', 'content', pageDesc);
+        setMeta('meta[property="og:url"]', 'content', pageUrl);
+        setMeta('meta[property="og:image"]', 'content', pageImg);
+
+        setMeta('meta[name="twitter:card"]', 'content', 'summary_large_image');
+        setMeta('meta[name="twitter:title"]', 'content', pageTitle);
+        setMeta('meta[name="twitter:description"]', 'content', pageDesc);
+        setMeta('meta[name="twitter:image"]', 'content', pageImg);
+
+        const schemaData = {
+          "@context": "https://schema.org",
+          "@type": "Blog",
+          "@id": pageUrl + "#blog",
+          "name": "Krish Kumar Insights & Blog",
+          "description": pageDesc,
+          "url": pageUrl,
+          "author": {
+            "@type": "Person",
+            "name": "Krish Kumar",
+            "url": origin + "/"
+          }
+        };
+        jsonLdEl.textContent = JSON.stringify(schemaData, null, 2);
+
+      } else {
+        // Portfolio Homepage
+        const pageTitle = 'Krish Kumar — Digital Marketer, UI/UX Designer & Creative Strategist';
+        const pageDesc = 'Personal portfolio of Krish Kumar — Digital Marketer, UI/UX Designer & Creative Strategist. Building digital experiences, modern visual designs and high-impact campaigns.';
+        const pageUrl = origin + '/';
+        const pageImg = origin + '/user-profile-image.jpeg';
+
+        document.title = pageTitle;
+        setMeta('meta[name="description"]', 'content', pageDesc);
+        canonicalEl.setAttribute('href', pageUrl);
+
+        setMeta('meta[property="og:type"]', 'content', 'website');
+        setMeta('meta[property="og:title"]', 'content', 'Krish Kumar — Portfolio');
+        setMeta('meta[property="og:description"]', 'content', 'Digital Marketer · UI/UX Designer · Creative Strategist');
+        setMeta('meta[property="og:url"]', 'content', pageUrl);
+        setMeta('meta[property="og:image"]', 'content', pageImg);
+
+        setMeta('meta[name="twitter:card"]', 'content', 'summary_large_image');
+        setMeta('meta[name="twitter:title"]', 'content', 'Krish Kumar — Portfolio');
+        setMeta('meta[name="twitter:description"]', 'content', 'Digital Marketer · UI/UX Designer · Creative Strategist');
+        setMeta('meta[name="twitter:image"]', 'content', pageImg);
+
+        const schemaData = {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Person",
+              "@id": origin + "/#person",
+              "name": "Krish Kumar",
+              "jobTitle": "Digital Marketer, UI/UX Designer, Creative Strategist",
+              "url": origin + "/",
+              "image": pageImg,
+              "sameAs": [
+                "https://linkedin.com",
+                "https://instagram.com"
+              ],
+              "knowsAbout": [
+                "Digital Marketing",
+                "UI/UX Design",
+                "Brand Strategy",
+                "Performance Marketing",
+                "Figma",
+                "AI-Powered Creativity"
+              ]
+            },
+            {
+              "@type": "WebSite",
+              "@id": origin + "/#website",
+              "url": origin + "/",
+              "name": "Krish Kumar — Portfolio & Blog",
+              "publisher": {
+                "@id": origin + "/#person"
+              }
+            }
+          ]
+        };
+        jsonLdEl.textContent = JSON.stringify(schemaData, null, 2);
+      }
     }
 
     // OPEN BLOG VIEW (/blog)
@@ -4748,6 +4878,8 @@ const htmlContent = `<!DOCTYPE html>
       blogPageView.classList.add('active');
       blogPageView.scrollTop = 0;
 
+      updatePageMetadata('blog');
+
       if (pushState) {
         window.history.pushState({ view: 'blog' }, '', '/blog');
       }
@@ -4759,6 +4891,8 @@ const htmlContent = `<!DOCTYPE html>
       blogPageView.classList.remove('active');
       blogPageView.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('blog-view-open');
+
+      updatePageMetadata('home');
 
       if (pushState) {
         window.history.pushState(null, '', '/');
@@ -4890,6 +5024,8 @@ const htmlContent = `<!DOCTYPE html>
       articlePageView.classList.add('active');
       articlePageView.scrollTop = 0;
 
+      updatePageMetadata('article', slug);
+
       if (pushState) {
         window.history.pushState({ view: 'article', slug }, '', '/blog/' + slug);
       }
@@ -4918,6 +5054,7 @@ const htmlContent = `<!DOCTYPE html>
         articlePageView.setAttribute('aria-hidden', 'true');
       }
       document.body.classList.remove('article-view-open');
+      updatePageMetadata('home');
       window.history.pushState(null, '', '/');
     }
 
@@ -5317,6 +5454,7 @@ const htmlContent = `<!DOCTYPE html>
         if (serviceDetailView && serviceDetailView.classList.contains('active')) {
           closeServiceView();
         }
+        updatePageMetadata('home');
       }
     });
 
@@ -5350,6 +5488,9 @@ const htmlContent = `<!DOCTYPE html>
       } else if (servicesDatabase[hash]) {
         openServiceView(hash);
       }
+
+      // Initialize homepage metadata if not in blog view
+      updatePageMetadata('home');
     });
 
     // Allow escape key to close project view or service view
@@ -5383,9 +5524,90 @@ const htmlContent = `<!DOCTYPE html>
       });
     }
   </script>
+  </div> <!-- #public-website -->
+
+  <!-- Hidden Secure Admin Space Mount -->
+  <div id="admin-root"></div>
+  <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
 `;
 
 fs.writeFileSync(path.join(__dirname, '../index.html'), htmlContent, 'utf8');
 console.log('Successfully generated index.html with embedded base64 photos!');
+
+// Generate public/sitemap.xml
+function generateSitemapXml(baseUrl, blogDatabase) {
+  const cleanBase = (baseUrl || 'https://ais-dev-73voorynbsph76iezefq2l-597436389474.asia-southeast1.run.app').replace(/\/+$/, '');
+  const today = new Date().toISOString().split('T')[0];
+  const slugs = Object.keys(blogDatabase);
+
+  let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n';
+  xml += '        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n';
+  xml += '        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"\n';
+  xml += '        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">\n';
+
+  // Homepage
+  xml += '  <url>\n';
+  xml += `    <loc>${cleanBase}/</loc>\n`;
+  xml += `    <lastmod>${today}</lastmod>\n`;
+  xml += '    <changefreq>weekly</changefreq>\n';
+  xml += '    <priority>1.0</priority>\n';
+  xml += '  </url>\n';
+
+  // Blog listing
+  xml += '  <url>\n';
+  xml += `    <loc>${cleanBase}/blog</loc>\n`;
+  xml += `    <lastmod>${today}</lastmod>\n`;
+  xml += '    <changefreq>daily</changefreq>\n';
+  xml += '    <priority>0.9</priority>\n';
+  xml += '  </url>\n';
+
+  // Each blog article
+  slugs.forEach(slug => {
+    const post = blogDatabase[slug];
+    const postMod = post.isoModified ? post.isoModified.split('T')[0] : (post.isoDate ? post.isoDate.split('T')[0] : today);
+    const postImg = cleanBase + (post.featuredImage || '/user-profile-image.jpeg');
+    const safeTitle = (post.title || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+    
+    xml += '  <url>\n';
+    xml += `    <loc>${cleanBase}/blog/${slug}</loc>\n`;
+    xml += `    <lastmod>${postMod}</lastmod>\n`;
+    xml += '    <changefreq>monthly</changefreq>\n';
+    xml += '    <priority>0.8</priority>\n';
+    xml += '    <image:image>\n';
+    xml += `      <image:loc>${postImg}</image:loc>\n`;
+    xml += `      <image:title>${safeTitle}</image:title>\n`;
+    xml += '    </image:image>\n';
+    xml += '  </url>\n';
+  });
+
+  xml += '</urlset>\n';
+  return xml;
+}
+
+function generateRobotsTxt(baseUrl) {
+  const cleanBase = (baseUrl || 'https://ais-dev-73voorynbsph76iezefq2l-597436389474.asia-southeast1.run.app').replace(/\/+$/, '');
+  return `User-agent: *
+Allow: /
+Allow: /blog
+Allow: /blog/*
+
+Sitemap: ${cleanBase}/sitemap.xml
+`;
+}
+
+const publicDir = path.join(__dirname, '../public');
+if (!fs.existsSync(publicDir)) {
+  fs.mkdirSync(publicDir, { recursive: true });
+}
+
+const sitemapXml = generateSitemapXml(process.env.APP_URL, blogData);
+fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemapXml, 'utf8');
+console.log('Successfully generated public/sitemap.xml with ' + Object.keys(blogData).length + ' blog articles!');
+
+const robotsTxt = generateRobotsTxt(process.env.APP_URL);
+fs.writeFileSync(path.join(publicDir, 'robots.txt'), robotsTxt, 'utf8');
+console.log('Successfully generated public/robots.txt!');
+
