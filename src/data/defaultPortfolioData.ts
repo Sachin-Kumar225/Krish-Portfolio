@@ -169,6 +169,7 @@ export interface MediaItem {
   id: string;
   name: string;
   url: string;
+  storagePath?: string;
   category: 'profile' | 'projects' | 'certificates' | 'blog' | 'general';
   fileType: string;
   fileSize?: string;

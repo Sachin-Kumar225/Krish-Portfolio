@@ -10,10 +10,12 @@ import {
   Eye,
   EyeOff,
   FileText,
+  FolderOpen,
 } from 'lucide-react';
 import { usePortfolio } from '../../../context/PortfolioContext';
 import { CertificateItem } from '../../../data/defaultPortfolioData';
 import { uploadMediaFile } from '../../../lib/supabase';
+import { MediaPickerModal } from '../MediaPickerModal';
 
 export const CertificatesView: React.FC = () => {
   const { data, addCertificate, editCertificate, deleteCertificate, addMedia } = usePortfolio();
@@ -22,6 +24,7 @@ export const CertificatesView: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingCert, setEditingCert] = useState<CertificateItem | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
 
   // Form State
   const [name, setName] = useState('');
@@ -284,14 +287,22 @@ export const CertificatesView: React.FC = () => {
               {/* Upload Image/PDF */}
               <div>
                 <label className="block font-semibold text-slate-300 mb-1">Upload Certificate File (Image or PDF)</label>
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-2">
                   <input
                     type="text"
                     value={imageUrl}
                     onChange={(e) => setImageUrl(e.target.value)}
                     placeholder="URL or uploaded path..."
-                    className="flex-1 px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-indigo-500"
+                    className="flex-1 min-w-[200px] px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-indigo-500"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setIsPickerOpen(true)}
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shrink-0 transition-colors shadow-sm"
+                  >
+                    <FolderOpen className="w-3.5 h-3.5" />
+                    <span>Media Library</span>
+                  </button>
                   <label className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold cursor-pointer border border-slate-700 shrink-0">
                     <Upload className="w-3.5 h-3.5" />
                     <span>{isUploading ? 'Uploading...' : 'Upload File'}</span>
@@ -350,6 +361,18 @@ export const CertificatesView: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Certificate File Media Picker Modal */}
+      <MediaPickerModal
+        isOpen={isPickerOpen}
+        onClose={() => setIsPickerOpen(false)}
+        onSelect={(url) => {
+          setImageUrl(url);
+        }}
+        title="Select Certificate Asset (Image or PDF)"
+        defaultCategory="certificates"
+        allowedTypes="all"
+      />
     </div>
   );
 };

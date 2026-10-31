@@ -485,23 +485,93 @@ export async function removeAuthorizedAdmin(
   }
 }
 
+// Media File Validation
+export interface FileValidationResult {
+  valid: boolean;
+  error?: string;
+  sizeFormatted: string;
+}
+
+export const ALLOWED_MEDIA_TYPES = [
+  'image/jpeg',
+  'image/jpg',
+  'image/png',
+  'image/webp',
+  'image/gif',
+  'image/svg+xml',
+  'application/pdf',
+];
+
+export const MAX_MEDIA_FILE_SIZE = 10 * 1024 * 1024; // 10 Megabytes
+
+export function formatBytes(bytes: number, decimals = 1): string {
+  if (bytes === 0) return '0 B';
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ['B', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+}
+
+export function validateMediaFile(
+  file: File,
+  options?: { maxSizeBytes?: number; allowedTypes?: string[] }
+): FileValidationResult {
+  const maxSize = options?.maxSizeBytes ?? MAX_MEDIA_FILE_SIZE;
+  const allowed = options?.allowedTypes ?? ALLOWED_MEDIA_TYPES;
+  const sizeFormatted = formatBytes(file.size);
+
+  // File size validation
+  if (file.size > maxSize) {
+    return {
+      valid: false,
+      error: `File size (${sizeFormatted}) exceeds the ${formatBytes(maxSize)} maximum limit.`,
+      sizeFormatted,
+    };
+  }
+
+  // File type validation (check MIME type and extension)
+  const ext = '.' + (file.name.split('.').pop() || '').toLowerCase();
+  const allowedExts = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.svg', '.pdf'];
+  const mimeType = file.type?.toLowerCase() || '';
+
+  const isMimeAllowed = allowed.includes(mimeType);
+  const isExtAllowed = allowedExts.includes(ext);
+
+  if (!isMimeAllowed && !isExtAllowed) {
+    return {
+      valid: false,
+      error: `Unsupported file type (${file.type || ext}). Allowed formats: JPEG, PNG, WebP, GIF, SVG, PDF.`,
+      sizeFormatted,
+    };
+  }
+
+  return { valid: true, sizeFormatted };
+}
+
 // Media Upload to Supabase Storage with base64 fallback
 export async function uploadMediaFile(
   file: File,
   bucketName = 'portfolio-media',
   folder = 'uploads'
 ): Promise<{ url: string; path?: string; error?: string }> {
+  // Validate before proceeding
+  const validation = validateMediaFile(file);
+  if (!validation.valid) {
+    return { url: '', error: validation.error };
+  }
+
   const client = getSupabase();
 
-  if (client) {
+  if (client && isSupabaseConfigured()) {
     try {
-      const ext = file.name.split('.').pop() || 'jpg';
       const cleanName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
       const filePath = `${folder}/${Date.now()}_${cleanName}`;
 
       const { data, error } = await client.storage.from(bucketName).upload(filePath, file, {
         cacheControl: '3600',
         upsert: true,
+        contentType: file.type || undefined,
       });
 
       if (!error && data) {
@@ -510,7 +580,8 @@ export async function uploadMediaFile(
           return { url: publicUrlData.publicUrl, path: filePath };
         }
       } else if (error) {
-        console.warn('Supabase storage upload error, falling back to data URL:', error.message);
+        console.warn('Supabase storage upload error:', error.message);
+        // Continue to fallback if storage is unprovisioned
       }
     } catch (err: any) {
       console.warn('Supabase upload exception:', err);
@@ -521,13 +592,122 @@ export async function uploadMediaFile(
   return new Promise((resolve) => {
     const reader = new FileReader();
     reader.onload = (e) => {
-      resolve({ url: e.target?.result as string });
+      resolve({
+        url: e.target?.result as string,
+        path: `local-cached/${Date.now()}_${file.name}`,
+      });
     };
     reader.onerror = () => {
       resolve({ url: '', error: 'Failed to read file locally' });
     };
     reader.readAsDataURL(file);
   });
+}
+
+// Delete Media File from Supabase Storage
+export async function deleteMediaStorageFile(
+  storagePath: string,
+  bucketName = 'portfolio-media'
+): Promise<{ success: boolean; error?: string }> {
+  const client = getSupabase();
+  if (!client || !isSupabaseConfigured() || !storagePath) {
+    return { success: true }; // Local or no path to purge
+  }
+
+  // Do not attempt to delete local fallback paths or data URLs
+  if (storagePath.startsWith('local-cached') || storagePath.startsWith('data:')) {
+    return { success: true };
+  }
+
+  try {
+    const { error } = await client.storage.from(bucketName).remove([storagePath]);
+    if (error) {
+      console.warn('Supabase storage file removal error:', error.message);
+      return { success: false, error: error.message };
+    }
+    return { success: true };
+  } catch (err: any) {
+    console.warn('Supabase storage delete error:', err);
+    return { success: false, error: err.message || 'Failed to delete file from storage' };
+  }
+}
+
+// Replace an existing file in Supabase Storage with a new file
+export async function replaceMediaStorageFile(
+  oldStoragePath: string | undefined,
+  newFile: File,
+  bucketName = 'portfolio-media',
+  folder = 'uploads'
+): Promise<{ url: string; path?: string; error?: string }> {
+  // 1. Upload new file first
+  const uploadRes = await uploadMediaFile(newFile, bucketName, folder);
+  if (uploadRes.error || !uploadRes.url) {
+    return uploadRes;
+  }
+
+  // 2. Safely remove old file if it had a valid storage path
+  if (oldStoragePath && !oldStoragePath.startsWith('local-cached') && !oldStoragePath.startsWith('data:')) {
+    await deleteMediaStorageFile(oldStoragePath, bucketName);
+  }
+
+  return uploadRes;
+}
+
+// List all files in Supabase Storage bucket for synchronization
+export interface StorageFileInfo {
+  name: string;
+  path: string;
+  url: string;
+  size: number;
+  sizeFormatted: string;
+  createdAt: string;
+  updatedAt: string;
+  mimetype: string;
+}
+
+export async function listMediaStorageFiles(
+  bucketName = 'portfolio-media',
+  folders: string[] = ['', 'uploads', 'profile', 'projects', 'certificates', 'blog', 'general']
+): Promise<{ files: StorageFileInfo[]; error?: string }> {
+  const client = getSupabase();
+  if (!client || !isSupabaseConfigured()) {
+    return { files: [] };
+  }
+
+  const allFiles: StorageFileInfo[] = [];
+  try {
+    for (const folder of folders) {
+      const { data, error } = await client.storage.from(bucketName).list(folder, {
+        limit: 100,
+        sortBy: { column: 'created_at', order: 'desc' },
+      });
+
+      if (!error && data) {
+        for (const item of data) {
+          // Ignore subfolder directories
+          if (!item.id && !item.metadata) continue;
+
+          const filePath = folder ? `${folder}/${item.name}` : item.name;
+          const { data: urlData } = client.storage.from(bucketName).getPublicUrl(filePath);
+
+          allFiles.push({
+            name: item.name,
+            path: filePath,
+            url: urlData?.publicUrl || '',
+            size: item.metadata?.size || 0,
+            sizeFormatted: formatBytes(item.metadata?.size || 0),
+            createdAt: item.created_at ? item.created_at.split('T')[0] : new Date().toISOString().split('T')[0],
+            updatedAt: item.updated_at || item.created_at || '',
+            mimetype: item.metadata?.mimetype || 'image/jpeg',
+          });
+        }
+      }
+    }
+
+    return { files: allFiles };
+  } catch (err: any) {
+    return { files: [], error: err.message || 'Failed to list bucket storage files' };
+  }
 }
 
 // Complete SQL script for Supabase Database & Row Level Security Setup

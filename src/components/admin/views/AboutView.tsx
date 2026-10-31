@@ -8,14 +8,20 @@ import {
   TrendingUp,
   Image as ImageIcon,
   Upload,
+  FolderOpen,
+  RotateCcw,
 } from 'lucide-react';
 import { usePortfolio } from '../../../context/PortfolioContext';
 import { EducationItem, ExperienceItem, StatItem } from '../../../data/defaultPortfolioData';
 import { uploadMediaFile } from '../../../lib/supabase';
+import { MediaPickerModal } from '../MediaPickerModal';
 
 export const AboutView: React.FC = () => {
   const { data, updateAbout, addMedia } = usePortfolio();
   const ab = data.about;
+
+  const [isPhotoPickerOpen, setIsPhotoPickerOpen] = useState(false);
+  const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
 
   const [newStatLabel, setNewStatLabel] = useState('');
   const [newStatValue, setNewStatValue] = useState('');
@@ -219,6 +225,73 @@ export const AboutView: React.FC = () => {
             onChange={(e) => updateAbout({ body: e.target.value })}
             className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-indigo-500 resize-y"
           />
+        </div>
+      </div>
+
+      {/* About Section Photo */}
+      <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-4">
+        <h3 className="text-sm font-bold text-white border-b border-slate-800 pb-2">About Section Profile Photo</h3>
+
+        <div className="flex flex-col sm:flex-row items-start gap-5">
+          <div className="w-28 h-36 rounded-xl overflow-hidden bg-slate-950 border border-slate-800 shrink-0 relative">
+            <img
+              src={ab.photo || data.homepage.heroImage || '/user-profile-image.jpeg'}
+              alt="About Photo Preview"
+              className="w-full h-full object-cover"
+            />
+            <span className="absolute bottom-2 left-2 text-[9px] font-semibold text-white/90 px-1.5 py-0.5 rounded bg-black/60">
+              Active Photo
+            </span>
+          </div>
+
+          <div className="space-y-3 flex-1">
+            <p className="text-xs text-slate-300">
+              Choose or upload a dedicated photo for the public biography and background card.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setIsPhotoPickerOpen(true)}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-sm transition-colors"
+              >
+                <FolderOpen className="w-3.5 h-3.5" />
+                <span>Choose from Media Library</span>
+              </button>
+
+              <label className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold cursor-pointer border border-slate-700 transition-colors">
+                <Upload className="w-3.5 h-3.5" />
+                <span>{isUploadingPhoto ? 'Uploading...' : 'Upload New Photo'}</span>
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  onChange={handlePhotoUpload}
+                  disabled={isUploadingPhoto}
+                  className="hidden"
+                />
+              </label>
+
+              <button
+                type="button"
+                onClick={() => updateAbout({ photo: data.homepage.heroImage })}
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700 transition-colors"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>Sync with Hero Photo</span>
+              </button>
+            </div>
+
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-400 mb-1">Direct Image URL</label>
+              <input
+                type="text"
+                value={ab.photo || ''}
+                onChange={(e) => updateAbout({ photo: e.target.value })}
+                className="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-indigo-500"
+                placeholder="/user-profile-image.jpeg or https://..."
+              />
+            </div>
+          </div>
         </div>
       </div>
 
@@ -537,6 +610,18 @@ export const AboutView: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* About Profile Photo Picker Modal */}
+      <MediaPickerModal
+        isOpen={isPhotoPickerOpen}
+        onClose={() => setIsPhotoPickerOpen(false)}
+        onSelect={(url) => {
+          updateAbout({ photo: url });
+        }}
+        title="Select About Profile Photo"
+        defaultCategory="profile"
+        allowedTypes="images"
+      />
     </div>
   );
 };

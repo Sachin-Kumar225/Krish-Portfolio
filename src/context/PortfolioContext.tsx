@@ -25,6 +25,8 @@ import {
   logoutAdmin,
   getActiveAdminSession,
   AdminUser,
+  deleteMediaStorageFile,
+  listMediaStorageFiles,
 } from '../lib/supabase';
 
 const LOCAL_STORAGE_DATA_KEY = 'krish_portfolio_data';
@@ -85,8 +87,10 @@ interface PortfolioContextType {
   editSocialLink: (id: string, link: Partial<SocialLinkItem>) => void;
   deleteSocialLink: (id: string) => void;
   updateSeo: (seo: Partial<SeoConfig>) => void;
-  addMedia: (media: Omit<MediaItem, 'id'>) => void;
-  deleteMedia: (id: string) => void;
+  addMedia: (media: Omit<MediaItem, 'id'>) => MediaItem;
+  replaceMedia: (id: string, updated: Partial<MediaItem>) => void;
+  deleteMedia: (id: string) => Promise<boolean>;
+  syncMediaFromStorage: () => Promise<{ addedCount: number; error?: string }>;
   updateSettings: (settings: Partial<WebsiteSettings>) => void;
   saveChanges: (newData?: PortfolioData) => Promise<{ success: boolean; message: string }>;
   resetToDefaults: () => void;
@@ -591,7 +595,7 @@ export const PortfolioProvider: React.FC<{ children: ReactNode }> = ({ children 
     });
   };
 
-  const addMedia = (media: Omit<MediaItem, 'id'>) => {
+  const addMedia = (media: Omit<MediaItem, 'id'>): MediaItem => {
     const newMedia: MediaItem = {
       ...media,
       id: 'med-' + Date.now(),
@@ -601,14 +605,87 @@ export const PortfolioProvider: React.FC<{ children: ReactNode }> = ({ children 
       saveChanges(updated);
       return updated;
     });
+    return newMedia;
   };
 
-  const deleteMedia = (id: string) => {
+  const replaceMedia = (id: string, updated: Partial<MediaItem>) => {
+    setData((prev) => {
+      const updatedMedia = prev.media.map((m) => (m.id === id ? { ...m, ...updated } : m));
+      const updatedPortfolio = { ...prev, media: updatedMedia };
+      saveChanges(updatedPortfolio);
+      return updatedPortfolio;
+    });
+  };
+
+  const deleteMedia = async (id: string): Promise<boolean> => {
+    const target = data.media.find((m) => m.id === id);
+    if (!target) return false;
+
+    // If item has a Supabase Storage path, delete from bucket
+    if (target.storagePath) {
+      try {
+        await deleteMediaStorageFile(target.storagePath, 'portfolio-media');
+      } catch (err) {
+        console.warn('Could not purge file from Supabase storage:', err);
+      }
+    }
+
     setData((prev) => {
       const updated = { ...prev, media: prev.media.filter((m) => m.id !== id) };
       saveChanges(updated);
       return updated;
     });
+    return true;
+  };
+
+  const syncMediaFromStorage = async (): Promise<{ addedCount: number; error?: string }> => {
+    try {
+      const res = await listMediaStorageFiles('portfolio-media');
+      if (res.error) {
+        return { addedCount: 0, error: res.error };
+      }
+
+      if (!res.files || res.files.length === 0) {
+        return { addedCount: 0 };
+      }
+
+      const existingUrls = new Set(data.media.map((m) => m.url));
+      const existingPaths = new Set(data.media.map((m) => m.storagePath).filter(Boolean));
+
+      const newItems: MediaItem[] = [];
+      for (const f of res.files) {
+        if (!existingUrls.has(f.url) && !existingPaths.has(f.path)) {
+          let category: MediaItem['category'] = 'general';
+          if (f.path.includes('profile')) category = 'profile';
+          else if (f.path.includes('project')) category = 'projects';
+          else if (f.path.includes('cert')) category = 'certificates';
+          else if (f.path.includes('blog')) category = 'blog';
+
+          newItems.push({
+            id: 'med-sync-' + Math.random().toString(36).substring(2, 9),
+            name: f.name,
+            url: f.url,
+            storagePath: f.path,
+            category,
+            fileType: f.mimetype || 'image/jpeg',
+            fileSize: f.sizeFormatted,
+            dateAdded: f.createdAt,
+          });
+        }
+      }
+
+      if (newItems.length > 0) {
+        setData((prev) => {
+          const updated = { ...prev, media: [...newItems, ...prev.media] };
+          saveChanges(updated);
+          return updated;
+        });
+      }
+
+      return { addedCount: newItems.length };
+    } catch (err: any) {
+      return { addedCount: 0, error: err.message || 'Storage synchronization failed' };
+    }
   };
 
   const updateSettings = (settings: Partial<WebsiteSettings>) => {
@@ -669,7 +746,9 @@ export const PortfolioProvider: React.FC<{ children: ReactNode }> = ({ children 
         deleteSocialLink,
         updateSeo,
         addMedia,
+        replaceMedia,
         deleteMedia,
+        syncMediaFromStorage,
         updateSettings,
         saveChanges,
         resetToDefaults,

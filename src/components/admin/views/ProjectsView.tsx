@@ -12,10 +12,12 @@ import {
   EyeOff,
   Search,
   Tag,
+  FolderOpen,
 } from 'lucide-react';
 import { usePortfolio } from '../../../context/PortfolioContext';
 import { ProjectItem } from '../../../data/defaultPortfolioData';
 import { uploadMediaFile } from '../../../lib/supabase';
+import { MediaPickerModal } from '../MediaPickerModal';
 
 export const ProjectsView: React.FC = () => {
   const { data, addProject, editProject, deleteProject, addMedia } = usePortfolio();
@@ -25,6 +27,7 @@ export const ProjectsView: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<ProjectItem | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
 
   // Form State
   const [title, setTitle] = useState('');
@@ -438,14 +441,22 @@ export const ProjectsView: React.FC = () => {
               {/* Cover Image */}
               <div>
                 <label className="block font-semibold text-slate-300 mb-1">Cover Image / Visual Asset</label>
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-2">
                   <input
                     type="text"
                     value={coverImage}
                     onChange={(e) => setCoverImage(e.target.value)}
                     placeholder="/user-profile-image.jpeg or https://..."
-                    className="flex-1 px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-indigo-500"
+                    className="flex-1 min-w-[200px] px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-indigo-500"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setIsPickerOpen(true)}
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shrink-0 transition-colors shadow-sm"
+                  >
+                    <FolderOpen className="w-3.5 h-3.5" />
+                    <span>Media Library</span>
+                  </button>
                   <label className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold cursor-pointer border border-slate-700 shrink-0">
                     <Upload className="w-3.5 h-3.5" />
                     <span>{isUploading ? 'Uploading...' : 'Upload Image'}</span>
@@ -641,6 +652,18 @@ export const ProjectsView: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Project Cover Media Picker Modal */}
+      <MediaPickerModal
+        isOpen={isPickerOpen}
+        onClose={() => setIsPickerOpen(false)}
+        onSelect={(url) => {
+          setCoverImage(url);
+        }}
+        title="Select Project Cover Asset"
+        defaultCategory="projects"
+        allowedTypes="images"
+      />
     </div>
   );
 };

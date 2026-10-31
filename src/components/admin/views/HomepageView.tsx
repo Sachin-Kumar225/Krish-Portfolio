@@ -8,13 +8,16 @@ import {
   Trash2,
   ExternalLink,
   Sparkles,
+  FolderOpen,
 } from 'lucide-react';
 import { usePortfolio } from '../../../context/PortfolioContext';
 import { uploadMediaFile } from '../../../lib/supabase';
+import { MediaPickerModal } from '../MediaPickerModal';
 
 export const HomepageView: React.FC = () => {
   const { data, updateHomepage, addMedia, isSaving, saveChanges } = usePortfolio();
   const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [isPickerOpen, setIsPickerOpen] = useState<boolean>(false);
   const [newPillText, setNewPillText] = useState<string>('');
 
   const hp = data.homepage;
@@ -143,7 +146,16 @@ export const HomepageView: React.FC = () => {
             </p>
 
             <div className="flex flex-wrap items-center gap-3">
-              <label className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold cursor-pointer transition-colors shadow-sm">
+              <button
+                type="button"
+                onClick={() => setIsPickerOpen(true)}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-sm transition-colors"
+              >
+                <FolderOpen className="w-3.5 h-3.5" />
+                <span>Choose from Media Library</span>
+              </button>
+
+              <label className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold cursor-pointer border border-slate-700 transition-colors">
                 <Upload className="w-3.5 h-3.5" />
                 <span>{isUploading ? 'Uploading...' : 'Upload New Photo'}</span>
                 <input
@@ -277,6 +289,18 @@ export const HomepageView: React.FC = () => {
           </button>
         </div>
       </div>
+
+      {/* Media Picker Modal */}
+      <MediaPickerModal
+        isOpen={isPickerOpen}
+        onClose={() => setIsPickerOpen(false)}
+        onSelect={(url) => {
+          updateHomepage({ heroImage: url });
+        }}
+        title="Select Hero Portrait Photo"
+        defaultCategory="profile"
+        allowedTypes="images"
+      />
     </div>
   );
 };
